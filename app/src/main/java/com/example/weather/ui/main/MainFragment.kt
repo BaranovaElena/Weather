@@ -8,9 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
-import com.example.weather.R
+import com.example.weather.databinding.MainFragmentBinding
 
 class MainFragment : Fragment() {
+    private var binding: MainFragmentBinding? = null
 
     companion object {
         fun newInstance() = MainFragment()
@@ -22,18 +23,25 @@ class MainFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.main_fragment, container, false)
+        binding = MainFragmentBinding.inflate(inflater, container, false)
+        return binding!!.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-        // TODO: Use the ViewModel
+
         val observer = Observer<Any> { renderData(it) }
         viewModel.getData().observe(viewLifecycleOwner, observer)
     }
 
     private fun renderData(data: Any) {
         Toast.makeText(context, data.toString(), Toast.LENGTH_LONG).show()
+        binding!!.message.text = data.toString()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
     }
 }
