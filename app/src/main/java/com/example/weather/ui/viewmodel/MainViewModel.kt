@@ -12,13 +12,17 @@ class MainViewModel : ViewModel() {
 
     fun getLiveAppStateValue() = liveLoadStateValue
 
-    fun getWeather() = getDataFromLocalSource()
+    fun getRusWeather() = getDataFromLocalSource(true)
 
-    private fun getDataFromLocalSource() {
+    fun getWorldWeather() = getDataFromLocalSource(false)
+
+    private fun getDataFromLocalSource(isRussianData: Boolean) {
         liveLoadStateValue.value = LoadState.Loading
         Thread {
             sleep(5000)
-            liveLoadStateValue.postValue(LoadState.Success(repo.getWeatherFromLocalStorage()))
+            liveLoadStateValue.postValue(LoadState.Success(
+                if (isRussianData) repo.getWeatherFromLocalStorageRus()
+                else repo.getWeatherFromLocalStorageWorld()))
         }.start()
     }
 }
