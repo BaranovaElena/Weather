@@ -9,16 +9,16 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import com.example.weather.ui.viewmodel.AppState
 import com.example.weather.R
-import com.example.weather.databinding.MainFragmentBinding
+import com.example.weather.databinding.DetailsFragmentBinding
 import com.example.weather.model.Weather
 import com.example.weather.ui.viewmodel.MainViewModel
 import com.google.android.material.snackbar.Snackbar
 
-class MainFragment : Fragment() {
-    private var binding: MainFragmentBinding? = null
+class DetailsFragment : Fragment() {
+    private var binding: DetailsFragmentBinding? = null
 
     companion object {
-        fun newInstance() = MainFragment()
+        fun newInstance() = DetailsFragment()
     }
 
     private lateinit var viewModel: MainViewModel
@@ -27,7 +27,7 @@ class MainFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = MainFragmentBinding.inflate(inflater, container, false)
+        binding = DetailsFragmentBinding.inflate(inflater, container, false)
         return binding!!.root
     }
 
@@ -37,7 +37,7 @@ class MainFragment : Fragment() {
 
         val observer = Observer<AppState> { renderData(it) }
         viewModel.getLiveData().observe(viewLifecycleOwner, observer)
-        viewModel.getWeather()
+        viewModel.getRusWeather()
     }
 
     private fun renderData(appState: AppState) {
@@ -45,7 +45,7 @@ class MainFragment : Fragment() {
             is AppState.Success -> {
                 val weatherData = appState.weatherData
                 binding!!.loadingLayout.visibility = View.GONE
-                setData(weatherData)
+                setData(weatherData[0])
             }
             is AppState.Loading -> {
                 binding!!.loadingLayout.visibility = View.VISIBLE
@@ -54,7 +54,7 @@ class MainFragment : Fragment() {
                 binding!!.loadingLayout.visibility = View.GONE
                 Snackbar
                     .make(binding!!.mainView, "Error", Snackbar.LENGTH_INDEFINITE)
-                    .setAction("Reload") { viewModel.getWeather() }
+                    .setAction("Reload") { viewModel.getRusWeather() }
                     .show()
             }
         }
