@@ -4,13 +4,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weather.R
 import com.example.weather.model.Weather
 
-class CityListAdapter :
-    RecyclerView.Adapter<CityListViewHolder>() {
+class CityListAdapter(var onItemViewClickListener: CityListFragment.OnItemViewClickListener?) :
+    RecyclerView.Adapter<CityListAdapter.CityListViewHolder>() {
 
     private var weatherData: List<Weather> = listOf()
 
@@ -33,14 +32,20 @@ class CityListAdapter :
     override fun getItemCount(): Int {
         return weatherData.size
     }
-}
 
-class CityListViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    fun removeListener() {
+        onItemViewClickListener = null
+    }
 
-    fun bind(weather: Weather) {
-        itemView.findViewById<TextView>(R.id.city_list_item_text_view).text = weather.city.city
-        itemView.setOnClickListener {
-            Toast.makeText(itemView.context, weather.city.city, Toast.LENGTH_SHORT).show()
+    inner class CityListViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+
+        fun bind(weather: Weather) {
+            itemView.findViewById<TextView>(R.id.city_list_item_text_view).text = weather.city.city
+            itemView.setOnClickListener {
+                onItemViewClickListener?.onItemViewClick(weather)
+            }
         }
     }
 }
+
+

@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.weather.R
 import com.example.weather.databinding.FragmentCityListBinding
+import com.example.weather.model.Weather
 import com.example.weather.ui.viewmodel.AppState
 import com.example.weather.ui.viewmodel.MainViewModel
 import com.google.android.material.snackbar.Snackbar
@@ -18,7 +19,23 @@ class CityListFragment : Fragment() {
     private var binding: FragmentCityListBinding? = null
 
     private lateinit var viewModel: MainViewModel
-    private val adapter = CityListAdapter()
+
+    private val adapter = CityListAdapter(object : OnItemViewClickListener {
+        override fun onItemViewClick(weather: Weather) {
+            val transaction = activity?.supportFragmentManager?.beginTransaction()
+            if (transaction != null) {
+                val bundle = Bundle()
+                bundle.putParcelable(DetailsFragment.BUNDLE_EXTRA_KEY, weather)
+                with(transaction) {
+                    add(R.id.container, DetailsFragment.newInstance(bundle))
+                    addToBackStack(null)
+                    commitAllowingStateLoss()
+                }
+            }
+
+        }
+    })
+
     private var isDataSetRus: Boolean = true
 
     companion object {
@@ -77,6 +94,11 @@ class CityListFragment : Fragment() {
 
     override fun onDestroy() {
         binding = null
+        adapter.removeListener()
         super.onDestroy()
+    }
+
+    interface OnItemViewClickListener {
+        fun onItemViewClick(weather: Weather)
     }
 }
