@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.weather.R
 import com.example.weather.databinding.DetailsFragmentBinding
+import com.example.weather.model.RepoImpl
 import com.example.weather.model.Weather
 
 class DetailsFragment : Fragment() {
@@ -33,15 +34,17 @@ class DetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val weather = arguments?.getParcelable<Weather>(BUNDLE_EXTRA_KEY)
-        if (weather != null) {
-            val city = weather.city
-            binding!!.cityName.text = city.name
-            binding!!.cityCoordinates.text =
-                "${getString(R.string.city_coordinates_text)}${city.lat}, ${city.lon}"
-            binding!!.temperatureValue.text = weather.temperature.toString()
-            binding!!.feelsLikeValue.text = weather.feelsLike.toString()
+        var weather = arguments?.getParcelable<Weather>(BUNDLE_EXTRA_KEY)
+        if (weather == null) {
+            weather = RepoImpl().getWeatherFromLocalStorageRus()[0]
         }
+        val city = weather.city
+        binding!!.cityName.text = city.name
+        binding!!.cityCoordinates.text =
+            "${getString(R.string.city_coordinates_text)}${city.lat}, ${city.lon}"
+        binding!!.temperatureValue.text = weather.temperature.toString()
+        binding!!.feelsLikeValue.text = weather.feelsLike.toString()
+
     }
 
     override fun onDestroyView() {

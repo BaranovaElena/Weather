@@ -7,4 +7,7 @@
     <string name="reload">Reload</string>
     <string name="russian_cities">Russian cities</string>
     <string name="world_cities">World cities</string>
+    <string name="bottom_nav_default">Main city</string>
+    <string name="bottom_nav_list">Cities</string>
+    <string name="bottom_nav_favorites">Favorites</string>
 </resources>
