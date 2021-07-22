@@ -63,28 +63,17 @@ class CityListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding!!.cityListRusRecyclerView.adapter = rusAdapter
         binding!!.cityListWorldRecyclerView.adapter = worldAdapter
-        binding!!.cityListFragmentFloatingButton.setOnClickListener { changeWeatherDataSet() }
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         viewModel.getLiveData().observe(viewLifecycleOwner, Observer { renderData(it) })
-        viewModel.getRusWeather()
-    }
-
-    private fun changeWeatherDataSet() {
-        if (isDataSetRus) {
-            viewModel.getWorldWeather()
-            binding!!.cityListFragmentFloatingButton.setImageResource(R.drawable.ic_globe)
-        } else {
-            viewModel.getRusWeather()
-            binding!!.cityListFragmentFloatingButton.setImageResource(R.drawable.russia_flag)
-        }
-        isDataSetRus = !isDataSetRus
+        viewModel.getWeather()
     }
 
     private fun renderData(appState: AppState) {
         when (appState) {
             is AppState.Success -> {
                 binding!!.cityListFragmentLoadingLayout.isVisible = false
-                rusAdapter.setWeather(appState.weatherData)
+                rusAdapter.setWeather(appState.weatherDataRus)
+                worldAdapter.setWeather(appState.weatherDataWorld)
             }
             is AppState.Loading -> {
                 binding!!.cityListFragmentLoadingLayout.isVisible = true
@@ -92,11 +81,11 @@ class CityListFragment : Fragment() {
             is AppState.Error -> {
                 binding!!.cityListFragmentLoadingLayout.isVisible = false
                 Snackbar.make(
-                    binding!!.cityListFragmentFloatingButton,
+                    binding!!.cityListFragmentLoadingLayout,
                     getString(R.string.error),
                     Snackbar.LENGTH_INDEFINITE
                 ).setAction(getString(R.string.reload)) {
-                    viewModel.getRusWeather()
+                    viewModel.getWeather()
                 }.show()
             }
         }
