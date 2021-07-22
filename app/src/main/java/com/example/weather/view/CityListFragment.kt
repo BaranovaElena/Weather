@@ -20,21 +20,30 @@ class CityListFragment : Fragment() {
 
     private lateinit var viewModel: MainViewModel
 
-    private val adapter = CityListAdapter(object : OnItemViewClickListener {
+    private val rusAdapter = CityListAdapter(object : OnItemViewClickListener {
         override fun onItemViewClick(weather: Weather) {
-            val transaction = activity?.supportFragmentManager?.beginTransaction()
-            if (transaction != null) {
-                val bundle = Bundle()
-                bundle.putParcelable(DetailsFragment.BUNDLE_EXTRA_KEY, weather)
-                with(transaction) {
-                    add(R.id.container, DetailsFragment.newInstance(bundle))
-                    addToBackStack(null)
-                    commitAllowingStateLoss()
-                }
-            }
-
+            setBundleToDetailsFragment(weather)
         }
     })
+
+    private val worldAdapter = CityListAdapter(object : OnItemViewClickListener {
+        override fun onItemViewClick(weather: Weather) {
+            setBundleToDetailsFragment(weather)
+        }
+    })
+
+    private fun setBundleToDetailsFragment(weather: Weather) {
+        val transaction = activity?.supportFragmentManager?.beginTransaction()
+        if (transaction != null) {
+            val bundle = Bundle()
+            bundle.putParcelable(DetailsFragment.BUNDLE_EXTRA_KEY, weather)
+            with(transaction) {
+                add(R.id.container, DetailsFragment.newInstance(bundle))
+                addToBackStack(null)
+                commitAllowingStateLoss()
+            }
+        }
+    }
 
     private var isDataSetRus: Boolean = true
 
@@ -52,7 +61,8 @@ class CityListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding!!.cityListRecyclerView.adapter = adapter
+        binding!!.cityListRusRecyclerView.adapter = rusAdapter
+        binding!!.cityListWorldRecyclerView.adapter = worldAdapter
         binding!!.cityListFragmentFloatingButton.setOnClickListener { changeWeatherDataSet() }
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         viewModel.getLiveData().observe(viewLifecycleOwner, Observer { renderData(it) })
@@ -74,7 +84,7 @@ class CityListFragment : Fragment() {
         when (appState) {
             is AppState.Success -> {
                 binding!!.cityListFragmentLoadingLayout.isVisible = false
-                adapter.setWeather(appState.weatherData)
+                rusAdapter.setWeather(appState.weatherData)
             }
             is AppState.Loading -> {
                 binding!!.cityListFragmentLoadingLayout.isVisible = true
@@ -94,7 +104,7 @@ class CityListFragment : Fragment() {
 
     override fun onDestroy() {
         binding = null
-        adapter.removeListener()
+        rusAdapter.removeListener()
         super.onDestroy()
     }
 

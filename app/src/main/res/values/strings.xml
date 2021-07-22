@@ -5,4 +5,6 @@
     <string name="feels_like_label">Ощущается как</string>
     <string name="error">Loading Error</string>
     <string name="reload">Reload</string>
+    <string name="russian_cities">Russian cities</string>
+    <string name="world_cities">World cities</string>
 </resources>
