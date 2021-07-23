@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.weather.R
 import com.example.weather.databinding.FragmentCityListBinding
 import com.example.weather.model.Weather
-import com.example.weather.ui.viewmodel.AppState
+import com.example.weather.ui.viewmodel.AppStateLoadAll
 import com.example.weather.ui.viewmodel.MainViewModel
 import com.example.weather.model.Weather
 import com.example.weather.ui.viewmodel.LoadAllCitiesState
