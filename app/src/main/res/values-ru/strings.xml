@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Погода</string>
+    <string name="city_coordinates_text">с.ш./в.д.: </string>
+    <string name="temperature_label_text">Температура</string>
+    <string name="feels_like_label">Ощущается как</string>
+    <string name="error">Ошибка загрузки</string>
+    <string name="reload">Перезагрузка</string>
+    <string name="russian_cities">Города России</string>
+    <string name="world_cities">Города мира</string>
+    <string name="bottom_nav_default">Мой город</string>
+    <string name="bottom_nav_list">Города</string>
+    <string name="bottom_nav_favorites">Избранные</string>
+</resources>

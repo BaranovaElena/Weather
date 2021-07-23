@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Weather</string>
     <string name="city_coordinates_text">lt/ln: </string>
-    <string name="temperature_label_text">Температура</string>
-    <string name="feels_like_label">Ощущается как</string>
+    <string name="temperature_label_text">Temperature</string>
+    <string name="feels_like_label">Feels like</string>
     <string name="error">Loading Error</string>
     <string name="reload">Reload</string>
     <string name="russian_cities">Russian cities</string>
