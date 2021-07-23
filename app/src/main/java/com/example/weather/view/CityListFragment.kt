@@ -11,14 +11,14 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.weather.R
 import com.example.weather.databinding.FragmentCityListBinding
 import com.example.weather.model.Weather
-import com.example.weather.ui.viewmodel.AppState
-import com.example.weather.ui.viewmodel.MainViewModel
+import com.example.weather.ui.viewmodel.AppStateLoadAll
+import com.example.weather.ui.viewmodel.CityListViewModel
 import com.google.android.material.snackbar.Snackbar
 
 class CityListFragment : Fragment() {
     private var binding: FragmentCityListBinding? = null
 
-    private lateinit var viewModel: MainViewModel
+    private lateinit var viewModel: CityListViewModel
 
     private val rusAdapter = CityListAdapter(object : OnItemViewClickListener {
         override fun onItemViewClick(weather: Weather) {
@@ -38,7 +38,7 @@ class CityListFragment : Fragment() {
             val bundle = Bundle()
             bundle.putParcelable(DetailsFragment.BUNDLE_EXTRA_KEY, weather)
             with(transaction) {
-                add(R.id.container, DetailsFragment.newInstance(bundle))
+                add(R.id.fragment_container, DetailsFragment.newInstance(bundle))
                 addToBackStack(null)
                 commitAllowingStateLoss()
             }
@@ -63,22 +63,22 @@ class CityListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding!!.cityListRusRecyclerView.adapter = rusAdapter
         binding!!.cityListWorldRecyclerView.adapter = worldAdapter
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(CityListViewModel::class.java)
         viewModel.getLiveData().observe(viewLifecycleOwner, Observer { renderData(it) })
         viewModel.getWeather()
     }
 
-    private fun renderData(appState: AppState) {
-        when (appState) {
-            is AppState.Success -> {
+    private fun renderData(appStateLoadAll: AppStateLoadAll) {
+        when (appStateLoadAll) {
+            is AppStateLoadAll.Success -> {
                 binding!!.cityListFragmentLoadingLayout.isVisible = false
-                rusAdapter.setWeather(appState.weatherDataRus)
-                worldAdapter.setWeather(appState.weatherDataWorld)
+                rusAdapter.setWeather(appStateLoadAll.weatherDataRus)
+                worldAdapter.setWeather(appStateLoadAll.weatherDataWorld)
             }
-            is AppState.Loading -> {
+            is AppStateLoadAll.Loading -> {
                 binding!!.cityListFragmentLoadingLayout.isVisible = true
             }
-            is AppState.Error -> {
+            is AppStateLoadAll.Error -> {
                 binding!!.cityListFragmentLoadingLayout.isVisible = false
                 Snackbar.make(
                     binding!!.cityListFragmentLoadingLayout,
