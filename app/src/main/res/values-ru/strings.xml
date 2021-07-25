@@ -11,4 +11,8 @@
     <string name="bottom_nav_default">Мой город</string>
     <string name="bottom_nav_list">Города</string>
     <string name="bottom_nav_favorites">Избранные</string>
+    <string name="wind_speed">Скорость ветра (м/с)</string>
+    <string name="wind_direction">Направление ветра</string>
+    <string name="pressure">Давление (мм рт.ст.)</string>
+    <string name="humidity">Влажность воздуха (%)</string>
 </resources>

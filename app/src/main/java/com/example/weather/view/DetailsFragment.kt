@@ -56,6 +56,11 @@ class DetailsFragment : Fragment() {
                 "${getString(R.string.city_coordinates_text)}${city.lat}, ${city.lon}"
             binding.temperatureValue.text = weather.temperature.toString()
             binding.feelsLikeValue.text = weather.feelsLike.toString()
+            binding.weatherCondition.text = weather.condition
+            binding.windSpeedValue.text = weather.windSpeed.toString()
+            binding.windDirValue.text = weather.windDir
+            binding.pressureValue.text = weather.pressureMm.toString()
+            binding.humidityValue.text = weather.humidity.toString()
         }
     }
 

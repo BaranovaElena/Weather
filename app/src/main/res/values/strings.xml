@@ -10,4 +10,8 @@
     <string name="bottom_nav_default">Main city</string>
     <string name="bottom_nav_list">Cities</string>
     <string name="bottom_nav_favorites">Favorites</string>
+    <string name="wind_speed">Wind speed (m/s)</string>
+    <string name="wind_direction">Wind direction</string>
+    <string name="pressure">Pressure (mmHg.)</string>
+    <string name="humidity">Air humidity (%)</string>
 </resources>
