@@ -3,6 +3,7 @@ package com.example.weather.view
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
@@ -44,6 +45,19 @@ class CityListAdapter(var onItemViewClickListener: CityListFragment.OnItemViewCl
             itemView.apply {
                 findViewById<TextView>(R.id.city_list_item_text_view).text = weather.city.name
                 setOnClickListener { onItemViewClickListener?.onItemViewClick(weather) }
+                val imgBtn = findViewById<ImageButton>(R.id.city_list_item_like_button)
+                imgBtn.setOnClickListener {
+                    when (imgBtn.isSelected) {
+                        true -> {
+                            imgBtn.isSelected = false
+                            imgBtn.setImageResource(R.drawable.ic_not_liked)
+                        }
+                        false -> {
+                            imgBtn.isSelected = true
+                            imgBtn.setImageResource(R.drawable.ic_liked)
+                        }
+                    }
+                }
             }
         }
     }
