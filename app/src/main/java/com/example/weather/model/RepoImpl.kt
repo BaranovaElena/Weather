@@ -7,6 +7,8 @@ class RepoImpl : Repo {
 
     override fun getWeatherFromLocalStorageWorld() = getWorldCities()
 
+    override fun getDefaultCity() = City("Москва", 55.755826, 37.617299900000035)
+
     private fun getWorldCities() = listOf(
         Weather(City("Лондон", 51.5085300, -0.1257400), 1, 2),
         Weather(City("Токио", 35.6895000, 139.6917100), 3, 4),

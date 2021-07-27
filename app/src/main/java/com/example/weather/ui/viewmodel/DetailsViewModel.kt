@@ -23,4 +23,5 @@ class DetailsViewModel : ViewModel() {
             )
         }.start()
     }
+    fun getDefaultCity() = repo.getDefaultCity()
 }
