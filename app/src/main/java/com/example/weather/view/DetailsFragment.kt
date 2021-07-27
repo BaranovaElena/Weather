@@ -2,8 +2,6 @@ package com.example.weather.view
 
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -18,19 +16,21 @@ import com.example.weather.model.WeatherDTO
 import com.example.weather.ui.viewmodel.DetailsViewModel
 import com.example.weather.ui.viewmodel.LoadOneCityState
 import com.example.weather.utils.*
-import com.example.weather.keys.*
-import com.google.gson.Gson
-import java.io.BufferedReader
-import java.io.InputStreamReader
-import java.net.MalformedURLException
-import java.net.URL
-import java.util.stream.Collectors
-import javax.net.ssl.HttpsURLConnection
+import com.example.weather.ui.viewmodel.WeatherLoader
 
 class DetailsFragment : Fragment() {
     private var _binding: DetailsFragmentBinding? = null
     private val binding get() = _binding!!
     private lateinit var weatherBundle: Weather
+    private val onLoadListener : WeatherLoader.WeatherLoaderListener = object:WeatherLoader.WeatherLoaderListener{
+        override fun onLoaded(weatherDTO: WeatherDTO) {
+            displayWeather(weatherDTO)
+        }
+
+        override fun onFailed(throwable: Throwable) {
+            TODO("Not yet implemented")
+        }
+    }
 
     private val viewModel: DetailsViewModel by lazy {
         ViewModelProvider(this).get(DetailsViewModel::class.java)
@@ -60,7 +60,8 @@ class DetailsFragment : Fragment() {
         weatherBundle = arguments?.getParcelable(BUNDLE_EXTRA_KEY)
             ?: getWeatherFromViewModel() //загрузка погоды города по умолчанию
         //setWeather(weather)
-        loadWeather()
+        val loader = WeatherLoader(onLoadListener, weatherBundle.city.lat, weatherBundle.city.lon)
+        loader.loadWeather()
     }
 
     private fun setWeather(weather: Weather?) {
@@ -81,39 +82,7 @@ class DetailsFragment : Fragment() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
-    private fun loadWeather() {
-        try {
-            val uri = URL("https://api.weather.yandex.ru/v2/forecast?lat=${weatherBundle.city.lat}&lon=${weatherBundle.city.lon}")
-            val handler = Handler()
-            Thread {
-                lateinit var urlConnection: HttpsURLConnection
-                try {
-                    urlConnection = uri.openConnection() as HttpsURLConnection
-                    urlConnection.requestMethod = "GET"
-                    urlConnection.addRequestProperty("X-Yandex-API-Key", YANDEX_WEATHER_API_KEY)
-                    urlConnection.readTimeout = 10000
-                    val bufferedReader = BufferedReader(InputStreamReader(urlConnection.inputStream))
-                    val weatherDTO: WeatherDTO = Gson().fromJson(getLines(bufferedReader), WeatherDTO::class.java)
-                    handler.post { displayWeather(weatherDTO) }
-                } catch (e: Exception) {
-                    Log.e("", "Fail connection", e)
-                    e.printStackTrace()
-                } finally {
-                    urlConnection.disconnect()
-                }
-            }.start()
-        } catch (e: MalformedURLException) {
-            Log.e("", "Fail URI", e)
-            e.printStackTrace()
-        }
-    }
 
-    @RequiresApi(Build.VERSION_CODES.N)
-    private fun getLines(reader: BufferedReader): String {
-        return reader.lines().collect(Collectors.joining("\n"))
-
-    }
 
     private fun displayWeather(weatherDTO: WeatherDTO) {
         with(binding) {
@@ -127,6 +96,10 @@ class DetailsFragment : Fragment() {
                 weatherCondition.text = fact?.condition
                 temperatureValue.text = fact?.temp.toString()
                 feelsLikeValue.text = fact?.feels_like.toString()
+                windSpeedValue.text = fact?.wind_speed.toString()
+                windDirValue.text = fact?.wind_dir
+                pressureValue.text = fact?.pressure_mm.toString()
+                humidityValue.text = fact?.humidity.toString()
             }
         }
     }
