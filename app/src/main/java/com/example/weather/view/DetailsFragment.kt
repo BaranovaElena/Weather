@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.weather.R
 import com.example.weather.databinding.DetailsFragmentBinding
 import com.example.weather.model.Weather
-import com.example.weather.ui.viewmodel.AppStateLoadOne
+import com.example.weather.ui.viewmodel.LoadOneCityState
 import com.example.weather.ui.viewmodel.DetailsViewModel
 import com.google.android.material.snackbar.Snackbar
 
@@ -61,17 +61,17 @@ class DetailsFragment : Fragment() {
     private fun getWeatherFromViewModel(): Weather? {
         viewModel = ViewModelProvider(this).get(DetailsViewModel::class.java)
         var weather: Weather? = null
-        viewModel.getLiveData().observe(viewLifecycleOwner, Observer {
+        viewModel.getLiveAppStateValue().observe(viewLifecycleOwner, Observer {
             when (it) {
-                is AppStateLoadOne.Success -> {
+                is LoadOneCityState.Success -> {
                     binding!!.loadingLayout.isVisible = false
                     weather = it.weatherDataMos
                     setWeather(weather)
                 }
-                is AppStateLoadOne.Loading -> {
+                is LoadOneCityState.Loading -> {
                     binding!!.loadingLayout.isVisible = true
                 }
-                is AppStateLoadOne.Error -> {
+                is LoadOneCityState.Error -> {
                     binding!!.loadingLayout.isVisible = false
                     Snackbar.make(
                         binding!!.loadingLayout,

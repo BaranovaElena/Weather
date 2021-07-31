@@ -3,7 +3,6 @@ package com.example.weather.view
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.fragment.NavHostFragment
 import com.example.weather.R
 import com.example.weather.databinding.MainActivityBinding
 import com.example.weather.model.RepoImpl

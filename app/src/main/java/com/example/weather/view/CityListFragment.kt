@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.weather.R
 import com.example.weather.databinding.FragmentCityListBinding
 import com.example.weather.model.Weather
-import com.example.weather.ui.viewmodel.AppStateLoadAll
+import com.example.weather.ui.viewmodel.LoadAllCitiesState
 import com.example.weather.ui.viewmodel.CityListViewModel
 import com.google.android.material.snackbar.Snackbar
 
@@ -45,8 +45,6 @@ class CityListFragment : Fragment() {
         }
     }
 
-    private var isDataSetRus: Boolean = true
-
     companion object {
         fun newInstance() = CityListFragment()
     }
@@ -64,21 +62,21 @@ class CityListFragment : Fragment() {
         binding!!.cityListRusRecyclerView.adapter = rusAdapter
         binding!!.cityListWorldRecyclerView.adapter = worldAdapter
         viewModel = ViewModelProvider(this).get(CityListViewModel::class.java)
-        viewModel.getLiveData().observe(viewLifecycleOwner, Observer { renderData(it) })
+        viewModel.getLiveAppStateValue().observe(viewLifecycleOwner, Observer { renderData(it) })
         viewModel.getWeather()
     }
 
-    private fun renderData(appStateLoadAll: AppStateLoadAll) {
-        when (appStateLoadAll) {
-            is AppStateLoadAll.Success -> {
+    private fun renderData(loadAllCitiesState: LoadAllCitiesState) {
+        when (loadAllCitiesState) {
+            is LoadAllCitiesState.Success -> {
                 binding!!.cityListFragmentLoadingLayout.isVisible = false
-                rusAdapter.setWeather(appStateLoadAll.weatherDataRus)
-                worldAdapter.setWeather(appStateLoadAll.weatherDataWorld)
+                rusAdapter.setWeather(loadAllCitiesState.weatherDataRus)
+                worldAdapter.setWeather(loadAllCitiesState.weatherDataWorld)
             }
-            is AppStateLoadAll.Loading -> {
+            is LoadAllCitiesState.Loading -> {
                 binding!!.cityListFragmentLoadingLayout.isVisible = true
             }
-            is AppStateLoadAll.Error -> {
+            is LoadAllCitiesState.Error -> {
                 binding!!.cityListFragmentLoadingLayout.isVisible = false
                 Snackbar.make(
                     binding!!.cityListFragmentLoadingLayout,

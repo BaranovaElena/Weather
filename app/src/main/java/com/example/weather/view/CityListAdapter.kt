@@ -40,7 +40,7 @@ class CityListAdapter(var onItemViewClickListener: CityListFragment.OnItemViewCl
     inner class CityListViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         fun bind(weather: Weather) {
-            itemView.findViewById<TextView>(R.id.city_list_item_text_view).text = weather.city.city
+            itemView.findViewById<TextView>(R.id.city_list_item_text_view).text = weather.city.name
             itemView.setOnClickListener {
                 onItemViewClickListener?.onItemViewClick(weather)
             }

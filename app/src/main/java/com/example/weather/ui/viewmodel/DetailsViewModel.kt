@@ -6,20 +6,19 @@ import androidx.lifecycle.ViewModel
 import com.example.weather.model.Repo
 import com.example.weather.model.RepoImpl
 
-class DetailsViewModel(
-    private val liveDataToObserve: MutableLiveData<AppStateLoadOne> = MutableLiveData(),
-    private val repoImpl: Repo = RepoImpl()
-) : ViewModel() {
+class DetailsViewModel : ViewModel() {
+    private val liveLoadStateValue: MutableLiveData<LoadOneCityState> = MutableLiveData()
+    private val repo: Repo = RepoImpl()
 
-    fun getLiveData() = liveDataToObserve
+    fun getLiveAppStateValue() = liveLoadStateValue
 
     fun getWeather() {
-        liveDataToObserve.value = AppStateLoadOne.Loading
+        liveLoadStateValue.value = LoadOneCityState.Loading
         Thread {
             SystemClock.sleep(1000)
-            liveDataToObserve.postValue(
-                AppStateLoadOne.Success(
-                    repoImpl.getWeatherFromLocalStorageRus()[0]
+            liveLoadStateValue.postValue(
+                LoadOneCityState.Success(
+                    repo.getWeatherFromLocalStorageRus()[0]
                 )
             )
         }.start()
