@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
-import com.example.weather.ui.viewmodel.AppState
+import com.example.weather.ui.viewmodel.LoadState
 import com.example.weather.R
 import com.example.weather.databinding.MainFragmentBinding
 import com.example.weather.model.Weather
@@ -35,22 +35,22 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
 
-        val observer = Observer<AppState> { renderData(it) }
-        viewModel.getLiveData().observe(viewLifecycleOwner, observer)
+        val observer = Observer<LoadState> { renderData(it) }
+        viewModel.getLiveAppStateValue().observe(viewLifecycleOwner, observer)
         viewModel.getWeather()
     }
 
-    private fun renderData(appState: AppState) {
-        when (appState) {
-            is AppState.Success -> {
-                val weatherData = appState.weatherData
+    private fun renderData(loadState: LoadState) {
+        when (loadState) {
+            is LoadState.Success -> {
+                val weatherData = loadState.weatherData
                 binding!!.loadingLayout.visibility = View.GONE
                 setData(weatherData)
             }
-            is AppState.Loading -> {
+            is LoadState.Loading -> {
                 binding!!.loadingLayout.visibility = View.VISIBLE
             }
-            is AppState.Error -> {
+            is LoadState.Error -> {
                 binding!!.loadingLayout.visibility = View.GONE
                 Snackbar
                     .make(binding!!.mainView, "Error", Snackbar.LENGTH_INDEFINITE)
@@ -61,7 +61,7 @@ class MainFragment : Fragment() {
     }
 
     private fun setData(weatherData: Weather) {
-        binding!!.cityName.text = weatherData.city.city
+        binding!!.cityName.text = weatherData.city.name
 
         val sb = StringBuilder()
         sb.append(getString(R.string.city_coordinates_text))

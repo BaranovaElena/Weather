@@ -1,7 +1,7 @@
 package com.example.weather.model
 
 data class City(
-    val city: String,
-    val lat: Double,
-    val lon: Double
+    val name: String = "",
+    val lat: Double = 0.0,
+    val lon: Double = 0.0
 )
