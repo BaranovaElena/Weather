@@ -20,5 +20,6 @@
     <dimen name="city_list_title_text_size">26sp</dimen>
     <dimen name="city_list_layout_margin">10dp</dimen>
     <dimen name="city_list_title_margin_start">10dp</dimen>
+    <integer name="recycler_span_count">2</integer>
     <integer name="detail_weather_layout_column_count">2</integer>
 </resources>

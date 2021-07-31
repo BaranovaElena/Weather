@@ -6,13 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.weather.R
 import com.example.weather.databinding.FragmentCityListBinding
 import com.example.weather.model.Weather
-import com.example.weather.ui.viewmodel.AppStateLoadAll
 import com.example.weather.ui.viewmodel.CityListViewModel
+import com.example.weather.ui.viewmodel.LoadAllCitiesState
 import com.example.weather.utils.*
 
 class CityListFragment : Fragment() {

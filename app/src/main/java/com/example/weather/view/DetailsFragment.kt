@@ -10,8 +10,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.weather.R
 import com.example.weather.databinding.DetailsFragmentBinding
 import com.example.weather.model.Weather
-import com.example.weather.ui.viewmodel.AppStateLoadOne
 import com.example.weather.ui.viewmodel.DetailsViewModel
+import com.example.weather.ui.viewmodel.LoadOneCityState
 import com.example.weather.utils.*
 
 class DetailsFragment : Fragment() {
@@ -51,7 +51,7 @@ class DetailsFragment : Fragment() {
     private fun setWeather(weather: Weather?) {
         if (weather != null) {
             val city = weather.city
-            binding.cityName.text = city.city
+            binding.cityName.text = city.name
             binding.cityCoordinates.text =
                 "${getString(R.string.city_coordinates_text)}${city.lat}, ${city.lon}"
             binding.temperatureValue.text = weather.temperature.toString()
@@ -66,17 +66,17 @@ class DetailsFragment : Fragment() {
 
     private fun getWeatherFromViewModel(): Weather? {
         var weather: Weather? = null
-        viewModel.getLiveData().observe(viewLifecycleOwner, { appState ->
+        viewModel.getLiveAppStateValue().observe(viewLifecycleOwner, { appState ->
             when (appState) {
-                is AppStateLoadOne.Success -> {
+                is LoadOneCityState.Success -> {
                     binding.loadingLayout.isVisible = false
                     weather = appState.weatherDataMos
                     setWeather(weather)
                 }
-                is AppStateLoadOne.Loading -> {
+                is LoadOneCityState.Loading -> {
                     binding.loadingLayout.isVisible = true
                 }
-                is AppStateLoadOne.Error -> {
+                is LoadOneCityState.Error -> {
                     binding.loadingLayout.isVisible = false
                     binding.loadingLayout.showSnackBar(
                         getString(R.string.error),
