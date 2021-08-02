@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.MenuItem
 import com.example.weather.R
 import com.example.weather.databinding.MainActivityBinding
-import com.example.weather.model.RepoImpl
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
@@ -31,7 +30,7 @@ class MainActivity : AppCompatActivity() {
             R.id.navigation_default -> {
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.fragment_container, DetailsFragment.newInstance(Bundle().apply {
-                        putParcelable(DetailsFragment.BUNDLE_EXTRA_KEY, RepoImpl().getWeatherFromLocalStorageRus()[0])
+                        putParcelable(DetailsFragment.BUNDLE_EXTRA_KEY, null)
                     }))
                     .commitNow()
             }

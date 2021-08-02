@@ -1,9 +1,8 @@
 package com.example.weather.ui.viewmodel
 
-import android.os.Build
 import android.os.Handler
+import android.os.Looper
 import android.util.Log
-import androidx.annotation.RequiresApi
 import com.example.weather.keys.YANDEX_WEATHER_API_KEY
 import com.example.weather.model.WeatherDTO
 import com.google.gson.Gson
@@ -11,7 +10,6 @@ import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.MalformedURLException
 import java.net.URL
-import java.util.stream.Collectors
 import javax.net.ssl.HttpsURLConnection
 
 class WeatherLoader(private val listener: WeatherLoaderListener,
@@ -22,11 +20,10 @@ class WeatherLoader(private val listener: WeatherLoaderListener,
         fun onFailed(throwable: Throwable)
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
     fun loadWeather() {
         try {
             val uri = URL("https://api.weather.yandex.ru/v2/forecast?lat=${lat}&lon=${lon}")
-            val handler = Handler()
+            val handler = Handler(Looper.getMainLooper())
             Thread {
                 lateinit var urlConnection: HttpsURLConnection
                 try {
@@ -52,9 +49,7 @@ class WeatherLoader(private val listener: WeatherLoaderListener,
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
     private fun getLines(reader: BufferedReader): String {
-        return reader.lines().collect(Collectors.joining("\n"))
-
+        return reader.readLines().joinToString("\n")
     }
 }

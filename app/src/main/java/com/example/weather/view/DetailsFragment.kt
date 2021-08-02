@@ -64,11 +64,10 @@ class DetailsFragment : Fragment() {
         return binding.root
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         weatherBundle = arguments?.getParcelable(BUNDLE_EXTRA_KEY)
-            ?: getDefaultCityWeather()
+            ?: viewModel.getDefaultCityWeather()
         val loader = WeatherLoader(onLoadListener, weatherBundle.city.lat, weatherBundle.city.lon)
         loader.loadWeather()
     }
@@ -91,12 +90,6 @@ class DetailsFragment : Fragment() {
                 humidityValue.text = fact?.humidity.toString()
             }
         }
-    }
-
-    private fun getDefaultCityWeather(): Weather {
-        var weather = Weather()
-        weather.city = viewModel.getDefaultCity()
-        return weather
     }
 
     override fun onDestroyView() {
