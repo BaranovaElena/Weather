@@ -1,46 +1,24 @@
 package com.example.weather.view
 
-import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import com.example.weather.R
 import com.example.weather.databinding.DetailsFragmentBinding
-import com.example.weather.model.Weather
+import com.example.weather.model.City
 import com.example.weather.model.WeatherDTO
 import com.example.weather.ui.viewmodel.DetailsViewModel
+import com.example.weather.ui.viewmodel.LoadOneCityState
 import com.example.weather.utils.*
-import com.example.weather.ui.viewmodel.WeatherLoader
 
 class DetailsFragment : Fragment() {
     private var _binding: DetailsFragmentBinding? = null
     private val binding get() = _binding!!
-    private lateinit var weatherBundle: Weather
-
-    private val onLoadListener: WeatherLoader.WeatherLoaderListener =
-        object : WeatherLoader.WeatherLoaderListener {
-            override fun onLoaded(weatherDTO: WeatherDTO) {
-                displayWeather(weatherDTO)
-            }
-
-            @RequiresApi(Build.VERSION_CODES.N)
-            override fun onFailed(throwable: Throwable) {
-                binding.loadingLayout.isVisible = false
-                binding.loadingLayout.showSnackBar(
-                    getString(R.string.error),
-                    getString(R.string.reload),
-                    {
-                        WeatherLoader(this, weatherBundle.city.lat, weatherBundle.city.lon)
-                            .loadWeather()
-                    }
-                )
-            }
-        }
+    private lateinit var cityBundle: City
 
     private val viewModel: DetailsViewModel by lazy {
         ViewModelProvider(this).get(DetailsViewModel::class.java)
@@ -66,27 +44,47 @@ class DetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        weatherBundle = arguments?.getParcelable(BUNDLE_EXTRA_KEY)
-            ?: viewModel.getDefaultCityWeather()
-        val loader = WeatherLoader(onLoadListener, weatherBundle.city.lat, weatherBundle.city.lon)
-        loader.loadWeather()
+        cityBundle = arguments?.getParcelable(BUNDLE_EXTRA_KEY)
+            ?: viewModel.getDefaultCity()
+        viewModel.getLiveAppStateValue().observe(viewLifecycleOwner, { renderData(it) })
+        viewModel.getWeather(cityBundle.lat, cityBundle.lon)
+    }
+
+    private fun renderData(state: LoadOneCityState) {
+        when (state) {
+            is LoadOneCityState.Success -> {
+                binding.loadingLayout.isVisible = false
+                displayWeather(state.loadedWeather)
+            }
+            is LoadOneCityState.Loading -> {
+                binding.loadingLayout.isVisible = true
+            }
+            is LoadOneCityState.Error -> {
+                binding.loadingLayout.isVisible = false
+                binding.loadingLayout.showSnackBar(
+                    getString(R.string.error),
+                    getString(R.string.reload),
+                    { viewModel.getWeather(cityBundle.lat, cityBundle.lon) }
+                )
+            }
+        }
     }
 
     private fun displayWeather(weatherDTO: WeatherDTO) {
         with(binding) {
             mainView.isVisible = true
             loadingLayout.isVisible = false
-            val city = weatherBundle.city
+            val city = cityBundle
             cityName.text = city.name
             cityCoordinates.text =
                 "${getString(R.string.city_coordinates_text)} ${city.lat}, ${city.lon}"
             weatherDTO.apply {
                 weatherCondition.text = fact?.condition
-                temperatureValue.text = fact?.temp.toString()
-                feelsLikeValue.text = fact?.feels_like.toString()
-                windSpeedValue.text = fact?.wind_speed.toString()
-                windDirValue.text = fact?.wind_dir
-                pressureValue.text = fact?.pressure_mm.toString()
+                temperatureValue.text = fact?.temperature.toString()
+                feelsLikeValue.text = fact?.feelsLike.toString()
+                windSpeedValue.text = fact?.windSpeed.toString()
+                windDirValue.text = fact?.windDir
+                pressureValue.text = fact?.pressureMm.toString()
                 humidityValue.text = fact?.humidity.toString()
             }
         }

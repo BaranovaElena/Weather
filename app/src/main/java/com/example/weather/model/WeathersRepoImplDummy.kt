@@ -18,13 +18,10 @@ class WeathersRepoImplDummy : WeathersRepo {
                 citiesRepo.getCitiesListRus()
             }
         }
-        var temp = 1
-        var feelsLike = 2
+        val weatherDTO = WeatherDTO()
 
         for (city in cities) {
-            weathers.add(Weather(city, temp, feelsLike))
-            temp += 2
-            feelsLike += 2
+            weathers.add(Weather(city, weatherDTO))
         }
         return weathers
     }
@@ -58,9 +55,8 @@ class WeathersRepoImplDummy : WeathersRepo {
     }
 
     override fun getWeatherOfDefaultCity(): Weather {
-        return Weather(
-            citiesRepo.getDefaultCity(),
-            1, 2, "clear", 10, "nw", 750, 40
-        )
+        val weatherDTO = WeatherDTO(FactDTO(
+            1,2, "clear", 10.0, "nw", 750, 40))
+        return Weather(citiesRepo.getDefaultCity(), weatherDTO)
     }
 }

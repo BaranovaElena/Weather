@@ -16,9 +16,6 @@ class WeatherRepoImplApi: WeathersRepo {
     }
 
     override fun getWeatherOfDefaultCity(): Weather {
-        return Weather(
-            citiesRepo.getDefaultCity(),
-            1, 2, "clear", 10, "nw", 750, 40
-        )
+        TODO("Not yet implemented")
     }
 }

@@ -9,6 +9,7 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import com.example.weather.R
 import com.example.weather.databinding.FragmentCityListBinding
+import com.example.weather.model.City
 import com.example.weather.model.Weather
 import com.example.weather.ui.viewmodel.CityListViewModel
 import com.example.weather.ui.viewmodel.LoadAllCitiesState
@@ -24,21 +25,21 @@ class CityListFragment : Fragment() {
 
     private val rusAdapter = CityListAdapter(object : OnItemViewClickListener {
         override fun onItemViewClick(weather: Weather) {
-            setBundleToDetailsFragment(weather)
+            setBundleToDetailsFragment(weather.city)
         }
     })
 
     private val worldAdapter = CityListAdapter(object : OnItemViewClickListener {
         override fun onItemViewClick(weather: Weather) {
-            setBundleToDetailsFragment(weather)
+            setBundleToDetailsFragment(weather.city)
         }
     })
 
-    private fun setBundleToDetailsFragment(weather: Weather) {
+    private fun setBundleToDetailsFragment(city: City) {
         activity?.supportFragmentManager?.beginTransaction()?.apply {
             with(this) {
                 add(R.id.fragment_container, DetailsFragment.newInstance(Bundle().apply {
-                    putParcelable(DetailsFragment.BUNDLE_EXTRA_KEY, weather)
+                    putParcelable(DetailsFragment.BUNDLE_EXTRA_KEY, city)
                 }))
                 addToBackStack(null)
                 commitAllowingStateLoss()
