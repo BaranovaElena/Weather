@@ -1,5 +1,6 @@
 package com.example.weather.model
 
+import android.os.SystemClock
 import android.util.Log
 import com.example.weather.model.CitiesRepoImplDummy.NoCityFoundException
 
@@ -30,33 +31,30 @@ class WeathersRepoImplDummy : WeathersRepo {
 
     override fun getWeatherOfWorldCities() = worldCitiesWeather
 
-    override fun getWeatherOfCity(lat: Double, lon: Double): Weather {
+    override fun getWeatherOfCity(listener: WeatherLoaderListener, lat: Double, lon: Double) {
         return try {
-            val city = citiesRepo.getCityByCoordinates(lat, lon)
-            getWeatherOfCity(city)
+            Thread {
+                SystemClock.sleep(1000)
+                val city = citiesRepo.getCityByCoordinates(lat, lon)
+                listener.onLoaded(getWeatherOfCity(city))
+            }.start()
         } catch (e: NoCityFoundException) {
             Log.d("@@@", e.message)
-            Weather()
+            listener.onFailed(e)
         }
     }
 
-    private fun getWeatherOfCity(city: City): Weather {
+    private fun getWeatherOfCity(city: City): WeatherDTO {
         for (weather in rusCitiesWeather) {
             if (weather.city == city) {
-                return weather
+                return weather.weatherDTO
             }
         }
         for (weather in worldCitiesWeather) {
             if (weather.city == city) {
-                return weather
+                return weather.weatherDTO
             }
         }
         throw NoCityFoundException()
-    }
-
-    override fun getWeatherOfDefaultCity(): Weather {
-        val weatherDTO = WeatherDTO(FactDTO(
-            1,2, "clear", 10.0, "nw", 750, 40))
-        return Weather(citiesRepo.getDefaultCity(), weatherDTO)
     }
 }

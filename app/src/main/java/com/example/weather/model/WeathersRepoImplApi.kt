@@ -1,10 +1,9 @@
-package com.example.weather.ui.viewmodel
+package com.example.weather.model
 
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import com.example.weather.keys.YANDEX_WEATHER_API_KEY
-import com.example.weather.model.WeatherDTO
 import com.google.gson.Gson
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -12,17 +11,22 @@ import java.net.MalformedURLException
 import java.net.URL
 import javax.net.ssl.HttpsURLConnection
 
-class WeatherLoader(private val listener: WeatherLoaderListener,
-                    private val lat: Double,
-                    private val lon: Double) {
-    interface WeatherLoaderListener {
-        fun onLoaded(weatherDTO: WeatherDTO)
-        fun onFailed(throwable: Throwable)
+class WeathersRepoImplApi: WeathersRepo {
+    private val hostName = "https://api.weather.yandex.ru/v2/forecast?"
+
+    override fun getWeatherOfRusCities(): List<Weather> {
+        //реализация при необходимости выводить какие-то данные о погоде в общем списке городов
+        return emptyList()
     }
 
-    fun loadWeather() {
+    override fun getWeatherOfWorldCities(): List<Weather> {
+        //реализация при необходимости выводить какие-то данные о погоде в общем списке городов
+        return emptyList()
+    }
+
+    override fun getWeatherOfCity(listener: WeatherLoaderListener, lat: Double, lon: Double) {
         try {
-            val uri = URL("https://api.weather.yandex.ru/v2/forecast?lat=${lat}&lon=${lon}")
+            val uri = URL("${hostName}lat=${lat}&lon=${lon}")
             val handler = Handler(Looper.getMainLooper())
             Thread {
                 lateinit var urlConnection: HttpsURLConnection

@@ -1,6 +1,5 @@
 package com.example.weather.ui.viewmodel
 
-import com.example.weather.model.Weather
 import com.example.weather.model.WeatherDTO
 
 sealed class LoadOneCityState {
