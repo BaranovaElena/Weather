@@ -15,4 +15,7 @@
     <string name="wind_direction">Направление ветра</string>
     <string name="pressure">Давление (мм рт.ст.)</string>
     <string name="humidity">Влажность воздуха (%)</string>
+
+    <string name="action_broadcast_receiver_msg_title">Сообщение от приложения "Погода"\n</string>
+    <string name="action_broadcast_receiver_msg_action">Событие: </string>
 </resources>

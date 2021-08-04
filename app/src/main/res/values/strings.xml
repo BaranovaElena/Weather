@@ -14,4 +14,7 @@
     <string name="wind_direction">Wind direction</string>
     <string name="pressure">Pressure (mmHg.)</string>
     <string name="humidity">Air humidity (%)</string>
+
+    <string name="action_broadcast_receiver_msg_title">Message from "Weather" app\n</string>
+    <string name="action_broadcast_receiver_msg_action">Action: </string>
 </resources>
