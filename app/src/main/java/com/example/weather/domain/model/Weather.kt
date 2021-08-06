@@ -8,7 +8,7 @@ import kotlinx.android.parcel.Parcelize
 data class Weather(
     var city: City = City(),
     var weatherDTO: WeatherDTO = WeatherDTO()
-): Parcelable
+) : Parcelable
 
 @Parcelize
 data class WeatherDTO(
@@ -28,5 +28,15 @@ data class FactDTO(
     val windDir: String? = "",
     @SerializedName("pressure_mm")
     val pressureMm: Int? = 0,
-    val humidity: Int? = 0
+    val humidity: Int? = 0,
+    var icon: String? = ""
 ) : Parcelable
+
+fun WeatherDTO.setIconUri() {
+    val icon = this.fact?.icon
+    if (icon != null) {
+        this.fact?.icon = "https://yastatic.net/weather/i/icons/blueye/color/svg/${icon}.svg"
+    } else {
+        this.fact?.icon = ""
+    }
+}

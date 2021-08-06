@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.weather.WeatherApplication
 import com.example.weather.domain.model.WeatherDTO
+import com.example.weather.domain.model.setIconUri
 import com.example.weather.domain.repo.city.CitiesRepo
 import com.example.weather.domain.repo.city.CitiesRepoImplDummy
 import com.example.weather.domain.repo.weather.*
@@ -22,6 +23,7 @@ class DetailsViewModel : ViewModel() {
 
             val onLoadListener: WeatherLoaderListener = object : WeatherLoaderListener {
                 override fun onLoaded(weatherDTO: WeatherDTO) {
+                    weatherDTO.setIconUri()
                     liveLoadStateValue.postValue(LoadOneCityState.Success(weatherDTO))
                 }
 
@@ -35,6 +37,7 @@ class DetailsViewModel : ViewModel() {
                     val serverResponse: WeatherDTO? = response.body()
                     liveLoadStateValue.postValue(
                         if (response.isSuccessful && serverResponse != null) {
+                            serverResponse.setIconUri()
                             LoadOneCityState.Success(serverResponse)
                         } else {
                             LoadOneCityState.Error(Throwable("SERVER_ERROR"))

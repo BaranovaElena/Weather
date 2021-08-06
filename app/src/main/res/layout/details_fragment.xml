@@ -32,12 +32,21 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/city_name" />
 
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/weather_condition_icon"
+            android:layout_width="@dimen/weather_condition_icon_width"
+            android:layout_height="@dimen/weather_condition_icon_height"
+            android:layout_marginTop="@dimen/city_coordinates_margin_top"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/city_coordinates" />
+
         <TextView
             android:id="@+id/weather_condition"
             style="@style/style_weather_default_value"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/city_coordinates" />
+            app:layout_constraintBottom_toBottomOf="@+id/weather_condition_icon" />
 
         <TextView
             android:id="@+id/temperature_label"

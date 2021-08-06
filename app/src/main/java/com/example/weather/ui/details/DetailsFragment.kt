@@ -1,5 +1,6 @@
 package com.example.weather.ui.details
 
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,6 +13,7 @@ import com.example.weather.databinding.DetailsFragmentBinding
 import com.example.weather.domain.model.City
 import com.example.weather.domain.model.WeatherDTO
 import com.example.weather.utils.*
+import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou
 
 class DetailsFragment : Fragment() {
     private var _binding: DetailsFragmentBinding? = null
@@ -84,6 +86,13 @@ class DetailsFragment : Fragment() {
                 windDirValue.text = fact?.windDir
                 pressureValue.text = fact?.pressureMm.toString()
                 humidityValue.text = fact?.humidity.toString()
+                fact?.icon?.let {
+                    GlideToVectorYou.justLoadImage(
+                        activity,
+                        Uri.parse(it),
+                        weatherConditionIcon
+                    )
+                }
             }
         }
     }

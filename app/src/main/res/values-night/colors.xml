@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="loading_background">#15344E</color>
+    <color name="loading_background">#001071</color>
     <color name="background">#001071</color>
     <color name="card_stroke">#FFFFFF</color>
     <color name="nav_icon_color">#4682FB</color>
