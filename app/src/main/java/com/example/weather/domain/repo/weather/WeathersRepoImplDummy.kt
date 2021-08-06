@@ -36,7 +36,7 @@ class WeathersRepoImplDummy : WeathersRepo {
 
     override fun getWeatherOfWorldCities() = worldCitiesWeather
 
-    override fun getWeatherOfCity(listener: WeatherLoaderListener, lat: Double, lon: Double) {
+    fun getWeatherOfCity(lat: Double, lon: Double, listener: WeatherLoaderListener) {
         return try {
             Thread {
                 SystemClock.sleep(1000)

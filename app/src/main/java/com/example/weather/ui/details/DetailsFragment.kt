@@ -44,7 +44,7 @@ class DetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         cityBundle = arguments?.getParcelable(BUNDLE_EXTRA_KEY)
             ?: viewModel.getDefaultCity()
-        viewModel.getLiveAppStateValue().observe(viewLifecycleOwner, { renderData(it) })
+        viewModel.liveLoadStateValue.observe(viewLifecycleOwner, { renderData(it) })
         viewModel.getWeather(cityBundle.lat, cityBundle.lon)
     }
 
