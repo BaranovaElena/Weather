@@ -4,8 +4,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.weather.R
 import com.example.weather.domain.model.Weather
 
@@ -44,16 +46,23 @@ class CityListAdapter(var onItemViewClickListener: CityListFragment.OnItemViewCl
             itemView.apply {
                 findViewById<TextView>(R.id.city_list_item_text_view).text = weather.city.name
                 setOnClickListener { onItemViewClickListener?.onItemViewClick(weather) }
-                val imgBtn = findViewById<ImageButton>(R.id.city_list_item_like_button)
-                imgBtn.setOnClickListener {
-                    when (imgBtn.isSelected) {
+
+                val imageView = findViewById<ImageView>(R.id.city_image)
+                Glide.with(this)
+                    .load(weather.city.image)
+                    .centerCrop()
+                    .into(imageView)
+
+                val likeBtn = findViewById<ImageButton>(R.id.city_list_item_like_button)
+                likeBtn.setOnClickListener {
+                    when (likeBtn.isSelected) {
                         true -> {
-                            imgBtn.isSelected = false
-                            imgBtn.setImageResource(R.drawable.ic_not_liked)
+                            likeBtn.isSelected = false
+                            likeBtn.setImageResource(R.drawable.ic_not_liked)
                         }
                         false -> {
-                            imgBtn.isSelected = true
-                            imgBtn.setImageResource(R.drawable.ic_liked)
+                            likeBtn.isSelected = true
+                            likeBtn.setImageResource(R.drawable.ic_liked)
                         }
                     }
                 }
