@@ -7,19 +7,19 @@
 
     <fragment
         android:id="@+id/navigation_list"
-        android:name="com.example.weather.view.CityListFragment"
+        android:name="com.example.weather.ui.citylist.CityListFragment"
         android:label="@string/bottom_nav_list"
         tools:layout="@layout/fragment_city_list" />
 
     <fragment
         android:id="@+id/navigation_default"
-        android:name="com.example.weather.view.DetailsFragment"
+        android:name="com.example.weather.ui.details.DetailsFragment"
         android:label="@string/bottom_nav_default"
         tools:layout="@layout/details_fragment" />
 
     <fragment
         android:id="@+id/navigation_favorites"
-        android:name="com.example.weather.view.FavoritesFragment"
+        android:name="com.example.weather.ui.favorites.FavoritesFragment"
         android:label="@string/bottom_nav_favorites"
         tools:layout="@layout/fragment_favorites" />
 </navigation>

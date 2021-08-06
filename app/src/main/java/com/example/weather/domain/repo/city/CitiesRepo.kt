@@ -1,4 +1,6 @@
-package com.example.weather.model
+package com.example.weather.domain.repo.city
+
+import com.example.weather.domain.model.City
 
 interface CitiesRepo {
     fun getCityByCoordinates(lat: Double, lon: Double): City

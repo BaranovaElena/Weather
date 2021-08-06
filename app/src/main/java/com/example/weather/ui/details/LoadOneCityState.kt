@@ -1,6 +1,6 @@
-package com.example.weather.ui.viewmodel
+package com.example.weather.ui.details
 
-import com.example.weather.model.WeatherDTO
+import com.example.weather.domain.model.WeatherDTO
 
 sealed class LoadOneCityState {
     data class Success(val loadedWeather: WeatherDTO) : LoadOneCityState()

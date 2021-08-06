@@ -1,8 +1,14 @@
-package com.example.weather.ui.viewmodel
+package com.example.weather.ui.details
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.weather.model.*
+import com.example.weather.domain.*
+import com.example.weather.domain.model.WeatherDTO
+import com.example.weather.domain.repo.city.CitiesRepo
+import com.example.weather.domain.repo.city.CitiesRepoImplDummy
+import com.example.weather.domain.repo.weather.WeatherLoaderListener
+import com.example.weather.domain.repo.weather.WeathersRepo
+import com.example.weather.domain.repo.weather.WeathersRepoImplApi
 
 class DetailsViewModel : ViewModel() {
     private val liveLoadStateValue: MutableLiveData<LoadOneCityState> = MutableLiveData()

@@ -1,10 +1,10 @@
-package com.example.weather.ui.viewmodel
+package com.example.weather.ui.citylist
 
 import android.os.SystemClock.sleep
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.weather.model.WeathersRepo
-import com.example.weather.model.WeathersRepoImplDummy
+import com.example.weather.domain.repo.weather.WeathersRepo
+import com.example.weather.domain.repo.weather.WeathersRepoImplDummy
 
 class CityListViewModel : ViewModel() {
     private val liveLoadStateValue: MutableLiveData<LoadAllCitiesState> = MutableLiveData()

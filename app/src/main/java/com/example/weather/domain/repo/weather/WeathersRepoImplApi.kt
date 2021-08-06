@@ -1,8 +1,10 @@
-package com.example.weather.model
+package com.example.weather.domain.repo.weather
 
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import com.example.weather.domain.model.Weather
+import com.example.weather.domain.model.WeatherDTO
 import com.example.weather.keys.YANDEX_WEATHER_API_KEY
 import com.google.gson.Gson
 import java.io.BufferedReader

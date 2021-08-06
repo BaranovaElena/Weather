@@ -1,8 +1,13 @@
-package com.example.weather.model
+package com.example.weather.domain.repo.weather
 
 import android.os.SystemClock
 import android.util.Log
-import com.example.weather.model.CitiesRepoImplDummy.NoCityFoundException
+import com.example.weather.domain.repo.city.CitiesRepo
+import com.example.weather.domain.repo.city.CitiesRepoImplDummy
+import com.example.weather.domain.repo.city.CitiesRepoImplDummy.NoCityFoundException
+import com.example.weather.domain.model.City
+import com.example.weather.domain.model.Weather
+import com.example.weather.domain.model.WeatherDTO
 
 class WeathersRepoImplDummy : WeathersRepo {
     private val citiesRepo: CitiesRepo = CitiesRepoImplDummy()

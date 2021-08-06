@@ -1,4 +1,4 @@
-package com.example.weather.view
+package com.example.weather.ui.citylist
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,7 +7,7 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weather.R
-import com.example.weather.model.Weather
+import com.example.weather.domain.model.Weather
 
 class CityListAdapter(var onItemViewClickListener: CityListFragment.OnItemViewClickListener?) :
     RecyclerView.Adapter<CityListAdapter.CityListViewHolder>() {

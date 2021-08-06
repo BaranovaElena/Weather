@@ -1,10 +1,13 @@
-package com.example.weather.view
+package com.example.weather.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import com.example.weather.R
 import com.example.weather.databinding.MainActivityBinding
+import com.example.weather.ui.citylist.CityListFragment
+import com.example.weather.ui.details.DetailsFragment
+import com.example.weather.ui.favorites.FavoritesFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {

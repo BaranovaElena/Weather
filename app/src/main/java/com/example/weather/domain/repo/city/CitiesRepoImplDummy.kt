@@ -1,5 +1,6 @@
-package com.example.weather.model
+package com.example.weather.domain.repo.city
 
+import com.example.weather.domain.model.City
 import kotlin.math.abs
 
 class CitiesRepoImplDummy : CitiesRepo {

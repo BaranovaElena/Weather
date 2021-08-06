@@ -1,4 +1,4 @@
-package com.example.weather.view
+package com.example.weather.ui.favorites
 
 import androidx.fragment.app.Fragment
 

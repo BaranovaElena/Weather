@@ -1,4 +1,4 @@
-package com.example.weather.view
+package com.example.weather.ui.details
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,10 +9,8 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import com.example.weather.R
 import com.example.weather.databinding.DetailsFragmentBinding
-import com.example.weather.model.City
-import com.example.weather.model.WeatherDTO
-import com.example.weather.ui.viewmodel.DetailsViewModel
-import com.example.weather.ui.viewmodel.LoadOneCityState
+import com.example.weather.domain.model.City
+import com.example.weather.domain.model.WeatherDTO
 import com.example.weather.utils.*
 
 class DetailsFragment : Fragment() {

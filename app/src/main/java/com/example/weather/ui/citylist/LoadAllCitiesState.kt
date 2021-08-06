@@ -1,6 +1,6 @@
-package com.example.weather.ui.viewmodel
+package com.example.weather.ui.citylist
 
-import com.example.weather.model.Weather
+import com.example.weather.domain.model.Weather
 
 sealed class LoadAllCitiesState {
     data class Success(val weatherDataRus: List<Weather>, val weatherDataWorld: List<Weather>) : LoadAllCitiesState()

@@ -1,4 +1,4 @@
-package com.example.weather.model
+package com.example.weather.domain.model
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
