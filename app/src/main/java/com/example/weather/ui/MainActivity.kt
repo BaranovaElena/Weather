@@ -8,6 +8,7 @@ import com.example.weather.databinding.MainActivityBinding
 import com.example.weather.ui.citylist.CityListFragment
 import com.example.weather.ui.details.DetailsFragment
 import com.example.weather.ui.favorites.FavoritesFragment
+import com.example.weather.ui.history.HistoryFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
@@ -40,6 +41,11 @@ class MainActivity : AppCompatActivity() {
             R.id.navigation_favorites -> {
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.fragment_container, FavoritesFragment.newInstance())
+                    .commitNow()
+            }
+            R.id.navigation_history -> {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, HistoryFragment.newInstance())
                     .commitNow()
             }
         }

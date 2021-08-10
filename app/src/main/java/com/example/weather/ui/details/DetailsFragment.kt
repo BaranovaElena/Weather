@@ -47,7 +47,7 @@ class DetailsFragment : Fragment() {
         cityBundle = arguments?.getParcelable(BUNDLE_EXTRA_KEY)
             ?: viewModel.getDefaultCity()
         viewModel.liveLoadStateValue.observe(viewLifecycleOwner, { renderData(it) })
-        viewModel.getWeather(cityBundle.lat, cityBundle.lon)
+        viewModel.getWeather(cityBundle)
     }
 
     private fun renderData(state: LoadOneCityState) {
@@ -64,7 +64,7 @@ class DetailsFragment : Fragment() {
                 binding.loadingLayout.showSnackBar(
                     getString(R.string.error),
                     getString(R.string.reload),
-                    { viewModel.getWeather(cityBundle.lat, cityBundle.lon) }
+                    { viewModel.getWeather(cityBundle) }
                 )
             }
         }

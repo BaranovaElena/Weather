@@ -15,4 +15,6 @@
     <string name="wind_direction">Направление ветра</string>
     <string name="pressure">Давление (мм рт.ст.)</string>
     <string name="humidity">Влажность воздуха (%)</string>
+    <string name="history_title_text">Просмотренные города</string>
+    <string name="bottom_nav_history">История</string>
 </resources>

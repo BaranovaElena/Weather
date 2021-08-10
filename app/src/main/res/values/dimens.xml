@@ -16,14 +16,21 @@
     <dimen name="default_card_margin">5dp</dimen>
     <dimen name="card_corner_radius">10dp</dimen>
     <dimen name="default_card_padding">10dp</dimen>
-    <dimen name="button_stroke_width">1dp</dimen>
+    <dimen name="card_stroke_width">1dp</dimen>
     <dimen name="city_list_title_text_size">26sp</dimen>
     <dimen name="city_list_layout_margin">10dp</dimen>
     <dimen name="city_list_title_margin_start">10dp</dimen>
-    <integer name="recycler_span_count">2</integer>
-    <integer name="detail_weather_layout_column_count">2</integer>
     <dimen name="weather_condition_icon_width">150dp</dimen>
     <dimen name="weather_condition_icon_height">150dp</dimen>
     <dimen name="city_list_item_height">150dp</dimen>
     <dimen name="city_list_item_width">100dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
+    <dimen name="history_title_text_size">26sp</dimen>
+    <dimen name="history_fragment_layout_margin">10dp</dimen>
+    <dimen name="history_item_padding">6dp</dimen>
+    <dimen name="history_item_city_text_size">22sp</dimen>
+    <dimen name="history_item_temp_text_size">26sp</dimen>
+    <dimen name="history_item_condition_text_size">17sp</dimen>
+    <integer name="recycler_span_count">2</integer>
+    <integer name="detail_weather_layout_column_count">2</integer>
 </resources>
