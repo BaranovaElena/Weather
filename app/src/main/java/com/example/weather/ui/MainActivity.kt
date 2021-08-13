@@ -2,10 +2,12 @@ package com.example.weather.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
 import com.example.weather.R
 import com.example.weather.databinding.MainActivityBinding
 import com.example.weather.ui.citylist.CityListFragment
+import com.example.weather.ui.contacts.ContactsFragment
 import com.example.weather.ui.details.DetailsFragment
 import com.example.weather.ui.favorites.FavoritesFragment
 import com.example.weather.ui.history.HistoryFragment
@@ -50,5 +52,22 @@ class MainActivity : AppCompatActivity() {
             }
         }
         return true
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.action_bar_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_menu_contacts -> {
+                supportFragmentManager.beginTransaction()
+                    .add(R.id.fragment_container, ContactsFragment.newInstance())
+                    .addToBackStack(null)
+                    .commitAllowingStateLoss()
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

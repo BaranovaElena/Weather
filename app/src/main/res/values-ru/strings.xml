@@ -17,4 +17,11 @@
     <string name="humidity">Влажность воздуха (%)</string>
     <string name="history_title_text">Просмотренные города</string>
     <string name="bottom_nav_history">История</string>
+
+    <string name="contacts">Контакты</string>
+    <string name="contacts_alert_title">Доступ к контактам</string>
+    <string name="contacts_alert_message">Мне нужен доступ к вашим контактам чтобы сдать домашку по котлину</string>
+    <string name="contacts_alert_btn_yes">Предоставить доступ</string>
+    <string name="contacts_alert_btn_no">Запретить доступ</string>
+    <string name="contacts_access_error">Ошибка доступа\nРазрешите доступ к контактам для дальнейшей работы</string>
 </resources>

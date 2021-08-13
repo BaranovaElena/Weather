@@ -16,4 +16,11 @@
     <string name="humidity">Air humidity (%)</string>
     <string name="history_title_text">Viewed cities</string>
     <string name="bottom_nav_history">History</string>
+    <string name="contacts">Contacts</string>
+
+    <string name="contacts_alert_title">Access to contacts</string>
+    <string name="contacts_alert_message">I need access to your contacts to pass homework on Kotlin</string>
+    <string name="contacts_alert_btn_yes">Grant access</string>
+    <string name="contacts_alert_btn_no">Deny access</string>
+    <string name="contacts_access_error">Access error\nAllow access to contacts for further work</string>
 </resources>
