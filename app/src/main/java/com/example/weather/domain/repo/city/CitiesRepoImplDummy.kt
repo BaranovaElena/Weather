@@ -1,5 +1,6 @@
 package com.example.weather.domain.repo.city
 
+import android.content.Context
 import com.example.weather.domain.model.City
 import kotlin.math.abs
 
@@ -44,7 +45,9 @@ class CitiesRepoImplDummy : CitiesRepo {
         throw NoCityFoundException()
     }
 
-    override fun getDefaultCity() = rusCities[0]
+    override fun getDefaultCity(context: Context, listener: CityLoaderListener){
+        listener.onLoaded(rusCities[0])
+    }
 
     override fun getCitiesListRus() = rusCities
 

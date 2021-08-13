@@ -9,7 +9,7 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="loading_background">#3CA9FB</color>
-    <color name="background">#3CA9FB</color>
+    <color name="background">#FFFFFF</color>
     <color name="card_stroke">#000000</color>
     <color name="nav_icon_color">#0000FF</color>
 </resources>
