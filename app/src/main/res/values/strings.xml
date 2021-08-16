@@ -16,4 +16,9 @@
     <string name="humidity">Air humidity (%)</string>
     <string name="history_title_text">Viewed cities</string>
     <string name="bottom_nav_history">History</string>
+    <string name="dialog_message_no_gps">Allow access to geolocation</string>
+    <string name="dialog_title_no_gps">Access to geolocation is closed</string>
+    <string name="dialog_button_close">Close</string>
+    <string name="dialog_title_gps_turned_off">GPS disabled</string>
+    <string name="dialog_message_last_location_unknown">Location unknown. Turn on GPS</string>
 </resources>

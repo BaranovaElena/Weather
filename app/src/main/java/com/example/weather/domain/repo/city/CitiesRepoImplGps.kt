@@ -13,6 +13,7 @@ const val GPS_PERMISSION_REQUEST_CODE = 100
 private const val REFRESH_PERIOD = 10000L
 private const val MINIMAL_DISTANCE = 100f
 const val GPS_PERMISSION_DENIED_EXCEPTION = "GPS_PERMISSION_DENIED"
+const val GPS_TURNED_OFF_EXCEPTION = "GPS_TURN_OFF_EXCEPTION"
 private const val UNKNOWN_CITY = "UNKNOWN CITY"
 
 class CitiesRepoImplGps : CitiesRepo {
@@ -42,28 +43,35 @@ class CitiesRepoImplGps : CitiesRepo {
                 listener.onFailed(Throwable(GPS_PERMISSION_DENIED_EXCEPTION))
             }
             PackageManager.PERMISSION_GRANTED -> {
-                loadLocation(context, nameListener)
+                loadLocation(context, nameListener, listener)
             }
         }
     }
 
     @SuppressLint("MissingPermission")
-    private fun loadLocation(context: Context, nameListener: CityNameLoaderListener) {
+    private fun loadLocation(
+        context: Context,
+        nameListener: CityNameLoaderListener,
+        listener: CityLoaderListener
+    ) {
         val locationManager =
             context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
         val location: Location? =
             locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-        location?.let {
-            setCity(context, it, nameListener)
-        }
 
-        locationManager.requestLocationUpdates(
-            LocationManager.GPS_PROVIDER,
-            REFRESH_PERIOD,
-            MINIMAL_DISTANCE,
-        ) {
-            setCity(context, it, nameListener)
+        location?.let { loc ->
+            setCity(context, loc, nameListener)
+
+            locationManager.requestLocationUpdates(
+                LocationManager.GPS_PROVIDER,
+                REFRESH_PERIOD,
+                MINIMAL_DISTANCE
+            ) {
+                setCity(context, it, nameListener)
+            }
+        } ?: run {
+            listener.onFailed(Throwable(GPS_TURNED_OFF_EXCEPTION))
         }
     }
 

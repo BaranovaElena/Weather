@@ -17,4 +17,9 @@
     <string name="humidity">Влажность воздуха (%)</string>
     <string name="history_title_text">Просмотренные города</string>
     <string name="bottom_nav_history">История</string>
+    <string name="dialog_message_no_gps">Разрешите доступ к геолокации</string>
+    <string name="dialog_title_no_gps">Доступ к геолокации закрыт</string>
+    <string name="dialog_button_close">Закрыть</string>
+    <string name="dialog_title_gps_turned_off">GPS отключён</string>
+    <string name="dialog_message_last_location_unknown">Местонахождение неизвестно. Включите GPS</string>
 </resources>
