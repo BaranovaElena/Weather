@@ -8,9 +8,12 @@ import com.example.weather.domain.repo.city.CitiesRepoImplDummy.NoCityFoundExcep
 import com.example.weather.domain.model.City
 import com.example.weather.domain.model.Weather
 import com.example.weather.domain.model.WeatherDTO
+import com.example.weather.domain.repo.city.lists.CityListsRepo
+import com.example.weather.domain.repo.city.lists.CityListsRepoRus
 
 class WeathersRepoImplDummy : WeathersRepo {
     private val citiesRepo: CitiesRepo = CitiesRepoImplDummy()
+    private val cityListsRepo: CityListsRepo = CityListsRepoRus()
     private val worldCitiesWeather: List<Weather> = setCitiesWeather(true)
     private val rusCitiesWeather: List<Weather> = setCitiesWeather(false)
 
@@ -18,10 +21,10 @@ class WeathersRepoImplDummy : WeathersRepo {
         val weathers: MutableList<Weather> = mutableListOf()
         val cities: List<City> = when (isWorld) {
             true -> {
-                citiesRepo.getCitiesListWorld()
+                cityListsRepo.getWorldCitiesList()
             }
             false -> {
-                citiesRepo.getCitiesListRus()
+                cityListsRepo.getLocalCitiesList()
             }
         }
         val weatherDTO = WeatherDTO()

@@ -101,7 +101,4 @@ class CitiesRepoImplGps : CitiesRepo {
 
     override fun getCityByCoordinates(lat: Double, lon: Double) =
         CitiesRepoImplDummy().getCityByCoordinates(lat, lon)
-
-    override fun getCitiesListRus() = CitiesRepoImplDummy().getCitiesListRus()
-    override fun getCitiesListWorld() = CitiesRepoImplDummy().getCitiesListWorld()
 }

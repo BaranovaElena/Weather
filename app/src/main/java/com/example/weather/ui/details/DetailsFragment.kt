@@ -1,14 +1,15 @@
 package com.example.weather.ui.details
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.weather.R
 import com.example.weather.databinding.DetailsFragmentBinding
@@ -29,12 +30,24 @@ class DetailsFragment : Fragment() {
     }
 
     companion object {
-        const val BUNDLE_EXTRA_KEY = "WEATHER_BUNDLE_EXTRA_KEY"
+        const val BUNDLE_EXTRA_KEY = "CITY_BUNDLE_EXTRA_KEY"
 
-        fun newInstance(bundle: Bundle): DetailsFragment {
+        fun newInstance(city: City?): DetailsFragment {
             val fragment = DetailsFragment()
-            fragment.arguments = bundle
+            val args = Bundle()
+            args.putParcelable(BUNDLE_EXTRA_KEY, city)
+            fragment.arguments = args
             return fragment
+        }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (arguments != null) {
+            val args: City? = requireArguments().getParcelable(BUNDLE_EXTRA_KEY)
+            if (args != null) {
+                cityBundle = args
+            }
         }
     }
 
