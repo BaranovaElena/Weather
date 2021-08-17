@@ -1,5 +1,7 @@
 package com.example.weather.ui.map
 
+import android.app.AlertDialog
+import android.location.Geocoder
 import androidx.fragment.app.Fragment
 
 import android.os.Bundle
@@ -23,6 +25,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 class MapsFragment : Fragment() {
     private var _binding: FragmentMapsBinding? = null
     private val binding get() = _binding!!
+    private lateinit var map: GoogleMap
     private lateinit var currentLatLng: LatLng
 
     private val viewModel: MapsViewModel by lazy {
@@ -58,28 +61,34 @@ class MapsFragment : Fragment() {
                 )
             )
         }
-    }
 
-    private val callback = OnMapReadyCallback { map ->
-        setDefaultMap(map)
-
-        map.setOnMapClickListener {
-            map.apply {
-                clear()
-                currentLatLng = it
-                addMarker(MarkerOptions().position(it))
-                moveCamera(CameraUpdateFactory.newLatLngZoom(it, map.cameraPosition.zoom))
-                viewModel.getAddress(requireContext(), it)
+        binding.mapSearchButton.setOnClickListener {
+            binding.mapSearchEditText.text?.apply {
+                setMarkerToLocation(this.toString())
             }
         }
     }
 
-    private fun setDefaultMap(map: GoogleMap) {
+    private val callback = OnMapReadyCallback { readyMap ->
+        this.map = readyMap
         val defaultLatLng = LatLng(55.755826, 37.617299)
-        currentLatLng = defaultLatLng
-        map.addMarker(MarkerOptions().position(defaultLatLng))
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLatLng, 5f))
-        viewModel.getAddress(requireContext(), defaultLatLng)
+        loadLocationOnMap(defaultLatLng, 2.5f)
+
+        map.setOnMapClickListener {
+            loadLocationOnMap(it, 1.0f)
+        }
+    }
+
+    private fun loadLocationOnMap(latLng: LatLng, zoomFactor: Float) {
+        map.apply {
+            clear()
+            currentLatLng = latLng
+            addMarker(MarkerOptions().position(latLng))
+            moveCamera(
+                CameraUpdateFactory.newLatLngZoom(latLng, map.cameraPosition.zoom * zoomFactor)
+            )
+            viewModel.getAddress(requireContext(), latLng)
+        }
     }
 
     private fun onCityLoad(state: LoadCityState) {
@@ -97,6 +106,29 @@ class MapsFragment : Fragment() {
                 binding.mapShowWeatherButton.isEnabled = false
             }
         }
+    }
+
+    private fun setMarkerToLocation(address: String) {
+        binding.mapShowWeatherButton.isEnabled = false
+        Thread {
+            try {
+                Geocoder(context).getFromLocationName(address, 1)[0]?.let {
+                    requireActivity().runOnUiThread {
+                        binding.mapSearchButton.isEnabled = true
+                        loadLocationOnMap(LatLng(it.latitude, it.longitude), 2.0f)
+                    }
+                }
+            } catch (e: Exception) {
+                requireActivity().runOnUiThread {
+                    AlertDialog.Builder(context)
+                        .setTitle(getString(R.string.error))
+                        .setMessage(getString(R.string.map_wrong_input_address))
+                        .setNegativeButton(getString(R.string.dialog_button_close)) { dialog, _ -> dialog.dismiss() }
+                        .create()
+                        .show()
+                }
+            }
+        }.start()
     }
 
     override fun onDestroy() {

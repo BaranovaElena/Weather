@@ -26,4 +26,5 @@
     <string name="map_search_edit_text_hint">Input the address</string>
     <string name="map_button_show_weather">Show weather here</string>
     <string name="loading">Loading…</string>
+    <string name="map_wrong_input_address">The address is entered incorrectly</string>
 </resources>
