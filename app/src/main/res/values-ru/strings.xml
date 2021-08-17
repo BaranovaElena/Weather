@@ -22,4 +22,9 @@
     <string name="dialog_button_close">Закрыть</string>
     <string name="dialog_title_gps_turned_off">GPS отключён</string>
     <string name="dialog_message_last_location_unknown">Местонахождение неизвестно. Включите GPS</string>
+    <string name="open_map">Указать город на карте</string>
+    <string name="map_button_search">Поиск</string>
+    <string name="map_search_edit_text_hint">Введите адрес</string>
+    <string name="map_button_show_weather">Показать погоду здесь</string>
+    <string name="loading">Загрузка…</string>
 </resources>

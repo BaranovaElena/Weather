@@ -50,6 +50,10 @@ class CityListFragment : Fragment() {
         binding.cityListWorldRecyclerView.adapter = worldAdapter
         viewModel.loadStateLiveData.observe(viewLifecycleOwner, { renderData(it) })
         viewModel.getCityLists()
+
+        binding.openMapButton.setOnClickListener {
+            (requireActivity() as Controller).openMap()
+        }
     }
 
     private fun renderData(loadAllCitiesState: LoadAllCitiesState) {
@@ -85,5 +89,6 @@ class CityListFragment : Fragment() {
 
     interface Controller {
         fun openDetailsScreen(city: City)
+        fun openMap()
     }
 }

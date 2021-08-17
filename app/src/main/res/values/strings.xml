@@ -21,4 +21,9 @@
     <string name="dialog_button_close">Close</string>
     <string name="dialog_title_gps_turned_off">GPS disabled</string>
     <string name="dialog_message_last_location_unknown">Location unknown. Turn on GPS</string>
+    <string name="open_map">Indicate the city on the map</string>
+    <string name="map_button_search">Search</string>
+    <string name="map_search_edit_text_hint">Input the address</string>
+    <string name="map_button_show_weather">Show weather here</string>
+    <string name="loading">Loading…</string>
 </resources>

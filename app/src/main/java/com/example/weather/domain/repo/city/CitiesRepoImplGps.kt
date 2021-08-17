@@ -25,18 +25,7 @@ class CitiesRepoImplGps : CitiesRepo {
     }
 
     override fun getDefaultCity(context: Context, listener: CityLoaderListener) {
-
-        val nameListener: CityNameLoaderListener = object : CityNameLoaderListener {
-            override fun onLoaded(city: City) {
-                loadedCity.name = city.name
-                listener.onLoaded(loadedCity)
-            }
-
-            override fun onFailed(throwable: Throwable) {
-                loadedCity.name = UNKNOWN_CITY
-                listener.onLoaded(loadedCity)
-            }
-        }
+        val nameListener = createNameListener(listener)
 
         when (context.checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION)) {
             PackageManager.PERMISSION_DENIED -> {
@@ -65,8 +54,7 @@ class CitiesRepoImplGps : CitiesRepo {
 
             locationManager.requestLocationUpdates(
                 LocationManager.GPS_PROVIDER,
-                REFRESH_PERIOD,
-                MINIMAL_DISTANCE
+                REFRESH_PERIOD, MINIMAL_DISTANCE
             ) {
                 setCity(context, it, nameListener)
             }
@@ -77,29 +65,27 @@ class CitiesRepoImplGps : CitiesRepo {
 
     private fun setCity(
         context: Context,
-        it: Location,
+        location: Location,
         nameListener: CityNameLoaderListener
     ) {
-        loadedCity.lat = it.latitude
-        loadedCity.lon = it.longitude
-        getAddressAsync(context, it, nameListener)
+        loadedCity.lat = location.latitude
+        loadedCity.lon = location.longitude
+        getAddressAsync(context, location.latitude, location.longitude, nameListener)
     }
 
     private fun getAddressAsync(
         context: Context,
-        location: Location,
+        lat: Double,
+        lon: Double,
         listener: CityNameLoaderListener
     ) {
         val geoCoder = Geocoder(context)
         Thread {
             try {
-                val addresses = geoCoder.getFromLocation(
-                    location.latitude,
-                    location.longitude,
-                    1
-                )
+                val addresses = geoCoder.getFromLocation(lat, lon, 1)
                 val cityName =
-                    "${addresses[0].locality}, ${addresses[0].adminArea}, ${addresses[0].countryName}"
+                    "${addresses[0].locality ?: ""}  ${addresses[0].adminArea ?: ""}  ${addresses[0].countryName ?: ""}"
+
                 listener.onLoaded(City(cityName))
             } catch (e: IOException) {
                 e.printStackTrace()
@@ -107,6 +93,27 @@ class CitiesRepoImplGps : CitiesRepo {
         }.start()
     }
 
-    override fun getCityByCoordinates(lat: Double, lon: Double) =
-        CitiesRepoImplDummy().getCityByCoordinates(lat, lon)
+    override fun getCityByCoordinates(
+        context: Context,
+        lat: Double,
+        lon: Double,
+        listener: CityLoaderListener
+    ) {
+        val nameListener = createNameListener(listener)
+        getAddressAsync(context, lat, lon, nameListener)
+    }
+
+    private fun createNameListener(listener: CityLoaderListener): CityNameLoaderListener {
+        return object : CityNameLoaderListener {
+            override fun onLoaded(city: City) {
+                loadedCity.name = city.name
+                listener.onLoaded(loadedCity)
+            }
+
+            override fun onFailed(throwable: Throwable) {
+                loadedCity.name = UNKNOWN_CITY
+                listener.onLoaded(loadedCity)
+            }
+        }
+    }
 }

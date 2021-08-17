@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-android-extensions'
     id 'kotlin-kapt'
+    id 'com.google.secrets_gradle_plugin' version '0.5'
 }
 
 android {
@@ -39,7 +40,10 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
+
+    //maps
+    implementation 'com.google.android.gms:play-services-maps:17.0.1'
 
     //room
     def room_version = "2.3.0"

@@ -10,6 +10,7 @@ import com.example.weather.ui.citylist.CityListFragment
 import com.example.weather.ui.details.DetailsFragment
 import com.example.weather.ui.favorites.FavoritesFragment
 import com.example.weather.ui.history.HistoryFragment
+import com.example.weather.ui.map.MapsFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity(), CityListFragment.Controller {
@@ -54,6 +55,13 @@ class MainActivity : AppCompatActivity(), CityListFragment.Controller {
     override fun openDetailsScreen(city: City) {
         supportFragmentManager.beginTransaction()
             .add(R.id.fragment_container, DetailsFragment.newInstance(city))
+            .addToBackStack(null)
+            .commitAllowingStateLoss()
+    }
+
+    override fun openMap() {
+        supportFragmentManager.beginTransaction()
+            .add(R.id.fragment_container, MapsFragment.newInstance())
             .addToBackStack(null)
             .commitAllowingStateLoss()
     }

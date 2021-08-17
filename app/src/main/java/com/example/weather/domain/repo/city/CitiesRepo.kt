@@ -4,7 +4,7 @@ import android.content.Context
 import com.example.weather.domain.model.City
 
 interface CitiesRepo {
-    fun getCityByCoordinates(lat: Double, lon: Double): City
+    fun getCityByCoordinates(context: Context, lat: Double, lon: Double, listener: CityLoaderListener)
     fun getDefaultCity(context: Context, listener: CityLoaderListener)
 }
 
