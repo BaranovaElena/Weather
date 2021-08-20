@@ -40,4 +40,10 @@
     <string name="map_search_edit_text_hint">Input the address</string>
     <string name="map_button_show_weather">Show weather here</string>
     <string name="loading">Loading…</string>
+
+    <!-- notification -->
+    <string name="notification">Create notification</string>
+    <string name="notification_btn_text">Press to check weather right now!</string>
+    <string name="menu_notif_channel_description">action bar menu notification channel</string>
+    <string name="firebase_notif_channel_description">firebase notification channel</string>
 </resources>

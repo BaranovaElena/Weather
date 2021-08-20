@@ -41,4 +41,10 @@
     <string name="map_search_edit_text_hint">Введите адрес</string>
     <string name="map_button_show_weather">Показать погоду здесь</string>
     <string name="loading">Загрузка…</string>
+
+    <!-- notification -->
+    <string name="notification">Создать уведомление</string>
+    <string name="notification_btn_text">Нажми чтобы проверить погоду!</string>
+    <string name="menu_notif_channel_description">канал уведомлений меню панели действий</string>
+    <string name="firebase_notif_channel_description">канал уведомлений firebase</string>
 </resources>

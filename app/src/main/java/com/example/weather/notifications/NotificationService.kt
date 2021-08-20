@@ -7,24 +7,17 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 
 import com.example.weather.R
+import com.example.weather.notifications.Notifications.Companion.MORNING_CHECK_NOTIFICATION
+import com.example.weather.notifications.Notifications.Companion.UNKNOWN_NOTIFICATION
+import com.example.weather.notifications.Notifications.Companion.UPDATE_NOTIFICATION
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 
 private const val TAG = "@@@"
 private const val CHANNEL_ID = "CHANNEL"
-
-private const val MORNING_CHECK_NOTIFICATION = "Morning check weather"
-private const val UPDATE_NOTIFICATION = "Update app"
-private const val UNKNOWN_NOTIFICATION = "Unknown notification"
+private const val CHANNEL_NAME = "firebase notification channel"
 
 class NotificationService : FirebaseMessagingService() {
-    companion object {
-        private val notificationsMap: Map<String, Int> = mapOf(
-            Pair(MORNING_CHECK_NOTIFICATION, 11),
-            Pair(UPDATE_NOTIFICATION, 12),
-            Pair(UNKNOWN_NOTIFICATION, 13)
-        )
-    }
 
     override fun onCreate() {
         super.onCreate()
@@ -32,14 +25,13 @@ class NotificationService : FirebaseMessagingService() {
     }
 
     private fun createNotificationChannel() {
-        val channelName = "channel name"
-        val channelDescription = "check work of notification channel"
+        val channelDescription = getString(R.string.firebase_notif_channel_description)
 
         val notificationManager = NotificationManagerCompat.from(this)
         val channel = NotificationChannelCompat.Builder(
             CHANNEL_ID, NotificationManagerCompat.IMPORTANCE_LOW
         )
-            .setName(channelName)
+            .setName(CHANNEL_NAME)
             .setDescription(channelDescription)
             .build()
         notificationManager.createNotificationChannel(channel)
@@ -88,6 +80,6 @@ class NotificationService : FirebaseMessagingService() {
             }.build()
 
         val notificationManager = NotificationManagerCompat.from(this)
-        notificationManager.notify(notificationsMap[notificationKey]!!, notification)
+        notificationManager.notify(Notifications.id[notificationKey]!!, notification)
     }
 }
