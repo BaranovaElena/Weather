@@ -27,12 +27,21 @@ android {
     buildTypes {
         debug {
             buildConfigField("String", "YANDEX_WEATHER_API_KEY", "\"" + localProperties['YANDEX_WEATHER_API_KEY'] + "\"")
+            versionNameSuffix "-debug"
+            buildConfigField "String", "BUILD_TYPE", '"DEBUG"'
         }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "BUILD_TYPE", '"RELEASE"'
+        }
+        beta {
+            initWith debug
+            versionNameSuffix "-beta"
+            buildConfigField "String", "BUILD_TYPE", '"BETA"'
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8

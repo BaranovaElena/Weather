@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
+import com.example.weather.BuildConfig
 import com.example.weather.R
 import com.example.weather.databinding.FragmentCityListBinding
 import com.example.weather.domain.model.City
@@ -54,6 +55,9 @@ class CityListFragment : Fragment() {
         binding.openMapButton.setOnClickListener {
             (requireActivity() as Controller).openMap()
         }
+
+        binding.versionNameTextView.text = BuildConfig.BUILD_TYPE
+        binding.versionStringTextView.text = getString(R.string.build_type_string_value)
     }
 
     private fun renderData(loadAllCitiesState: LoadAllCitiesState) {
