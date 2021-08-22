@@ -1,8 +1,8 @@
 package com.example.weather.domain.repo.weather
 
+import com.example.weather.BuildConfig
 import com.example.weather.domain.model.Weather
 import com.example.weather.domain.model.WeatherDTO
-import com.example.weather.keys.YANDEX_WEATHER_API_KEY
 import retrofit2.Callback
 import retrofit2.Retrofit
 
@@ -20,6 +20,6 @@ class WeathersRepoImplRetrofit(private val retrofit: Retrofit) : WeathersRepo {
     }
 
     fun getWeatherOfCity(lat: Double, lon: Double, callback: Callback<WeatherDTO>) {
-        service.getWeather(YANDEX_WEATHER_API_KEY,lat,lon).enqueue(callback)
+        service.getWeather(BuildConfig.YANDEX_WEATHER_API_KEY,lat,lon).enqueue(callback)
     }
 }

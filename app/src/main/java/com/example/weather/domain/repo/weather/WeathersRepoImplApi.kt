@@ -3,9 +3,9 @@ package com.example.weather.domain.repo.weather
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import com.example.weather.BuildConfig
 import com.example.weather.domain.model.Weather
 import com.example.weather.domain.model.WeatherDTO
-import com.example.weather.keys.YANDEX_WEATHER_API_KEY
 import com.google.gson.Gson
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -35,7 +35,7 @@ class WeathersRepoImplApi: WeathersRepo {
                 try {
                     urlConnection = uri.openConnection() as HttpsURLConnection
                     urlConnection.requestMethod = "GET"
-                    urlConnection.addRequestProperty("X-Yandex-API-Key", YANDEX_WEATHER_API_KEY)
+                    urlConnection.addRequestProperty("X-Yandex-API-Key", BuildConfig.YANDEX_WEATHER_API_KEY)
                     urlConnection.readTimeout = 10000
                     val bufferedReader = BufferedReader(InputStreamReader(urlConnection.inputStream))
                     val weatherDTO: WeatherDTO = Gson().fromJson(getLines(bufferedReader), WeatherDTO::class.java)

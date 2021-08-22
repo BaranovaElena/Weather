@@ -7,6 +7,9 @@ plugins {
     id 'com.google.gms.google-services'
 }
 
+def localProperties = new Properties()
+localProperties.load(new FileInputStream(rootProject.file("local.properties")))
+
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
@@ -22,6 +25,9 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField("String", "YANDEX_WEATHER_API_KEY", "\"" + localProperties['YANDEX_WEATHER_API_KEY'] + "\"")
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
