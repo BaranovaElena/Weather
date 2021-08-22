@@ -57,7 +57,8 @@ class CityListFragment : Fragment() {
         }
 
         binding.versionNameTextView.text = BuildConfig.BUILD_TYPE
-        binding.versionStringTextView.text = getString(R.string.build_type_string_value)
+        binding.buildVersionStringTextView.text = getString(R.string.build_type_string_value)
+        binding.flavorVersionStringTextView.text = getString(R.string.flavor_string_value)
     }
 
     private fun renderData(loadAllCitiesState: LoadAllCitiesState) {
