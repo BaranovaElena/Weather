@@ -1,3 +1,5 @@
 /build
 src/main/java/com/example/weather/keys
 google-services.json
+keystore.jks
+/paid

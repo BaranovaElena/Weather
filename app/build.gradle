@@ -24,6 +24,15 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        release {
+            storeFile file("keystore.jks")
+            storePassword localProperties['STORE_PASSWORD']
+            keyAlias localProperties['KEY_ALIAS']
+            keyPassword localProperties['KEY_PASSWORD']
+        }
+    }
+
     buildTypes {
         debug {
             buildConfigField("String", "YANDEX_WEATHER_API_KEY", "\"" + localProperties['YANDEX_WEATHER_API_KEY'] + "\"")
@@ -31,6 +40,7 @@ android {
             buildConfigField "String", "BUILD_TYPE", '"DEBUG"'
         }
         release {
+            signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField "String", "BUILD_TYPE", '"RELEASE"'
