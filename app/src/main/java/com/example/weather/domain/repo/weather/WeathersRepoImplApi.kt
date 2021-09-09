@@ -14,7 +14,8 @@ import java.net.URL
 import javax.net.ssl.HttpsURLConnection
 
 class WeathersRepoImplApi: WeathersRepo {
-    private val hostName = "https://api.weather.yandex.ru/v2/forecast?"
+    private val hostName =
+        BuildConfig.YANDEX_WEATHER_BASE_URL + BuildConfig.YANDEX_WEATHER_TARIFF_URL + "?"
 
     override fun getWeatherOfRusCities(): List<Weather> {
         //реализация при необходимости выводить какие-то данные о погоде в общем списке городов

@@ -36,6 +36,8 @@ android {
     buildTypes {
         debug {
             buildConfigField("String", "YANDEX_WEATHER_API_KEY", "\"" + localProperties['YANDEX_WEATHER_API_KEY'] + "\"")
+            buildConfigField("String", "YANDEX_WEATHER_BASE_URL", "\"" + localProperties['YANDEX_WEATHER_BASE_URL'] + "\"")
+            buildConfigField("String", "YANDEX_WEATHER_TARIFF_URL", "\"" + localProperties['YANDEX_WEATHER_TARIFF_URL'] + "\"")
             versionNameSuffix "-debug"
             buildConfigField "String", "BUILD_TYPE", '"DEBUG"'
         }
@@ -43,6 +45,9 @@ android {
             signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField("String", "YANDEX_WEATHER_API_KEY", "\"" + localProperties['YANDEX_WEATHER_API_KEY'] + "\"")
+            buildConfigField("String", "YANDEX_WEATHER_BASE_URL", "\"" + localProperties['YANDEX_WEATHER_BASE_URL'] + "\"")
+            buildConfigField("String", "YANDEX_WEATHER_TARIFF_URL", "\"" + localProperties['YANDEX_WEATHER_TARIFF_URL'] + "\"")
             buildConfigField "String", "BUILD_TYPE", '"RELEASE"'
         }
         beta {
