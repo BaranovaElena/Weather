@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="main_app_color">#C3D2FF</color>
+    <color name="background">#000000</color>
+    <color name="card_stroke">#FFFFFF</color>
+    <color name="item_background">#1E1E1E</color>
+    <color name="map_buttons">#34C3D2FF</color>
+</resources>

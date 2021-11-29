@@ -1,6 +1,49 @@
 <resources>
+    <!-- app -->
     <string name="app_name">Weather</string>
+
+    <!-- details fragment -->
     <string name="city_coordinates_text">lt/ln: </string>
-    <string name="temperature_label_text">Температура</string>
-    <string name="feels_like_label">Ощущается как</string>
+    <string name="temperature_label_text">Temperature</string>
+    <string name="feels_like_label">Feels like</string>
+    <string name="wind_speed">Wind speed (m/s)</string>
+    <string name="wind_direction">Wind direction</string>
+    <string name="pressure">Pressure (mmHg.)</string>
+    <string name="humidity">Air humidity (%)</string>
+
+    <!-- alert dialogs -->
+    <string name="error">Loading Error</string>
+    <string name="reload">Reload</string>
+    <string name="dialog_message_no_gps">Allow access to geolocation</string>
+    <string name="dialog_title_no_gps">Access to geolocation is closed</string>
+    <string name="dialog_button_close">Close</string>
+    <string name="dialog_title_gps_turned_off">GPS disabled</string>
+    <string name="dialog_message_last_location_unknown">Location unknown. Turn on GPS</string>
+    <string name="map_wrong_input_address">The address is entered incorrectly</string>
+
+    <!-- city list fragment -->
+    <string name="russian_cities">Russian cities</string>
+    <string name="world_cities">World cities</string>
+    <string name="open_map">Indicate the city on the map</string>
+
+    <!-- navigation -->
+    <string name="bottom_nav_default">Main city</string>
+    <string name="bottom_nav_list">Cities</string>
+    <string name="bottom_nav_favorites">Favorites</string>
+    <string name="bottom_nav_history">History</string>
+
+    <!-- history fragment -->
+    <string name="history_title_text">Viewed cities</string>
+
+    <!-- maps fragment -->
+    <string name="map_button_search">Search</string>
+    <string name="map_search_edit_text_hint">Input the address</string>
+    <string name="map_button_show_weather">Show weather here</string>
+    <string name="loading">Loading…</string>
+
+    <!-- notification -->
+    <string name="notification">Create notification</string>
+    <string name="notification_btn_text">Press to check weather right now!</string>
+    <string name="menu_notif_channel_description">action bar menu notification channel</string>
+    <string name="firebase_notif_channel_description">firebase notification channel</string>
 </resources>
