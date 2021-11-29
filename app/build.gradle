@@ -7,6 +7,9 @@ plugins {
     id 'com.google.gms.google-services'
 }
 
+def localProperties = new Properties()
+localProperties.load(new FileInputStream(rootProject.file("local.properties")))
+
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
@@ -21,12 +24,39 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    buildTypes {
+    signingConfigs {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            storeFile file("keystore.jks")
+            storePassword localProperties['STORE_PASSWORD']
+            keyAlias localProperties['KEY_ALIAS']
+            keyPassword localProperties['KEY_PASSWORD']
         }
     }
+
+    buildTypes {
+        debug {
+            buildConfigField("String", "YANDEX_WEATHER_API_KEY", "\"" + localProperties['YANDEX_WEATHER_API_KEY'] + "\"")
+            buildConfigField("String", "YANDEX_WEATHER_BASE_URL", "\"" + localProperties['YANDEX_WEATHER_BASE_URL'] + "\"")
+            buildConfigField("String", "YANDEX_WEATHER_TARIFF_URL", "\"" + localProperties['YANDEX_WEATHER_TARIFF_URL'] + "\"")
+            versionNameSuffix "-debug"
+            buildConfigField "String", "BUILD_TYPE", '"DEBUG"'
+        }
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField("String", "YANDEX_WEATHER_API_KEY", "\"" + localProperties['YANDEX_WEATHER_API_KEY'] + "\"")
+            buildConfigField("String", "YANDEX_WEATHER_BASE_URL", "\"" + localProperties['YANDEX_WEATHER_BASE_URL'] + "\"")
+            buildConfigField("String", "YANDEX_WEATHER_TARIFF_URL", "\"" + localProperties['YANDEX_WEATHER_TARIFF_URL'] + "\"")
+            buildConfigField "String", "BUILD_TYPE", '"RELEASE"'
+        }
+        beta {
+            initWith debug
+            versionNameSuffix "-beta"
+            buildConfigField "String", "BUILD_TYPE", '"BETA"'
+        }
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -37,6 +67,18 @@ android {
 
     buildFeatures {
         viewBinding true
+    }
+
+    flavorDimensions 'version'
+    productFlavors {
+        free {
+            dimension 'version'
+            versionNameSuffix '.free'
+        }
+        paid {
+            dimension 'version'
+            versionNameSuffix '.paid'
+        }
     }
 }
 
