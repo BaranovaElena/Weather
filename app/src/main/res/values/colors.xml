@@ -18,4 +18,5 @@
     <color name="item_background">#DADADA</color>
     <color name="map_buttons">#340003B3</color>
     <color name="map_text_view_background">#80FFFFFF</color>
+    <color name="notification_btn">#00F44336</color>
 </resources>
