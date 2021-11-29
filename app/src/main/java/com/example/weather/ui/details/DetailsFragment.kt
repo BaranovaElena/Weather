@@ -1,14 +1,15 @@
 package com.example.weather.ui.details
 
 import android.Manifest
+import android.app.AlertDialog
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.weather.R
 import com.example.weather.databinding.DetailsFragmentBinding
@@ -16,6 +17,7 @@ import com.example.weather.domain.model.City
 import com.example.weather.domain.model.WeatherDTO
 import com.example.weather.domain.repo.city.GPS_PERMISSION_DENIED_EXCEPTION
 import com.example.weather.domain.repo.city.GPS_PERMISSION_REQUEST_CODE
+import com.example.weather.domain.repo.city.GPS_TURNED_OFF_EXCEPTION
 import com.example.weather.utils.*
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou
 
@@ -29,11 +31,13 @@ class DetailsFragment : Fragment() {
     }
 
     companion object {
-        const val BUNDLE_EXTRA_KEY = "WEATHER_BUNDLE_EXTRA_KEY"
+        const val BUNDLE_EXTRA_KEY = "CITY_BUNDLE_EXTRA_KEY"
 
-        fun newInstance(bundle: Bundle): DetailsFragment {
+        fun newInstance(city: City?): DetailsFragment {
             val fragment = DetailsFragment()
-            fragment.arguments = bundle
+            val args = Bundle()
+            args.putParcelable(BUNDLE_EXTRA_KEY, city)
+            fragment.arguments = args
             return fragment
         }
     }
@@ -51,10 +55,10 @@ class DetailsFragment : Fragment() {
         viewModel.cityLoadState.observe(viewLifecycleOwner, { onCityLoad(it) })
         viewModel.weatherLoadState.observe(viewLifecycleOwner, { onWeatherLoad(it) })
 
-        if (arguments?.getParcelable<City>(BUNDLE_EXTRA_KEY) != null) {
-            cityBundle = arguments?.getParcelable(BUNDLE_EXTRA_KEY)!!
+        arguments?.getParcelable<City?>(BUNDLE_EXTRA_KEY)?.let {
+            cityBundle = it
             viewModel.getWeather(cityBundle)
-        } else {
+        } ?: run {
             cityBundle = City()
             viewModel.getDefaultCity(requireContext())
         }
@@ -70,18 +74,27 @@ class DetailsFragment : Fragment() {
                 binding.loadingLayout.isVisible = true
             }
             is LoadCityState.Error -> {
-                if (state.error.message == GPS_PERMISSION_DENIED_EXCEPTION) {
-                    requestPermissions(
-                        arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                        GPS_PERMISSION_REQUEST_CODE
-                    )
-                } else {
-                    binding.loadingLayout.isVisible = false
-                    binding.loadingLayout.showSnackBar(
-                        getString(R.string.error),
-                        getString(R.string.reload),
-                        { viewModel.getDefaultCity(requireContext()) }
-                    )
+                when (state.error.message) {
+                    GPS_PERMISSION_DENIED_EXCEPTION -> {
+                        requestPermissions(
+                            arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                            GPS_PERMISSION_REQUEST_CODE
+                        )
+                    }
+                    GPS_TURNED_OFF_EXCEPTION -> {
+                        showErrorDialog(
+                            getString(R.string.dialog_title_gps_turned_off),
+                            getString(R.string.dialog_message_last_location_unknown)
+                        )
+                    }
+                    else -> {
+                        binding.loadingLayout.isVisible = false
+                        binding.loadingLayout.showSnackBar(
+                            getString(R.string.error),
+                            getString(R.string.reload),
+                            { viewModel.getDefaultCity(requireContext()) }
+                        )
+                    }
                 }
             }
         }
@@ -140,10 +153,28 @@ class DetailsFragment : Fragment() {
     ) {
         if (requestCode == GPS_PERMISSION_REQUEST_CODE) {
             val pos = permissions.indexOf(Manifest.permission.ACCESS_FINE_LOCATION)
-            if (grantResults[pos] == PackageManager.PERMISSION_GRANTED)
-                viewModel.getDefaultCity(requireContext())
-        } else
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+            try {
+                if (grantResults[pos] == PackageManager.PERMISSION_GRANTED) {
+                    viewModel.getDefaultCity(requireContext())
+                }
+            } catch (e: IndexOutOfBoundsException) {
+                showErrorDialog(
+                    getString(R.string.dialog_title_no_gps),
+                    getString(R.string.dialog_message_no_gps)
+                )
+            }
+        }
+    }
+
+    private fun showErrorDialog(title: String, msg: String) {
+        activity?.let {
+            AlertDialog.Builder(it)
+                .setTitle(title)
+                .setMessage(msg)
+                .setNegativeButton(getString(R.string.dialog_button_close)) { dialog, _ -> dialog.dismiss() }
+                .create()
+                .show()
+        }
     }
 
     override fun onDestroyView() {

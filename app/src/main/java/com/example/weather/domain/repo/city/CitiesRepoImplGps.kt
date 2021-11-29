@@ -13,6 +13,7 @@ const val GPS_PERMISSION_REQUEST_CODE = 100
 private const val REFRESH_PERIOD = 10000L
 private const val MINIMAL_DISTANCE = 100f
 const val GPS_PERMISSION_DENIED_EXCEPTION = "GPS_PERMISSION_DENIED"
+const val GPS_TURNED_OFF_EXCEPTION = "GPS_TURN_OFF_EXCEPTION"
 private const val UNKNOWN_CITY = "UNKNOWN CITY"
 
 class CitiesRepoImplGps : CitiesRepo {
@@ -24,8 +25,86 @@ class CitiesRepoImplGps : CitiesRepo {
     }
 
     override fun getDefaultCity(context: Context, listener: CityLoaderListener) {
+        val nameListener = createNameListener(listener)
 
-        val nameListener: CityNameLoaderListener = object : CityNameLoaderListener {
+        when (context.checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION)) {
+            PackageManager.PERMISSION_DENIED -> {
+                listener.onFailed(Throwable(GPS_PERMISSION_DENIED_EXCEPTION))
+            }
+            PackageManager.PERMISSION_GRANTED -> {
+                loadLocation(context, nameListener, listener)
+            }
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun loadLocation(
+        context: Context,
+        nameListener: CityNameLoaderListener,
+        listener: CityLoaderListener
+    ) {
+        val locationManager =
+            context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+
+        val location: Location? =
+            locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+
+        location?.let { loc ->
+            setCity(context, loc, nameListener)
+
+            locationManager.requestLocationUpdates(
+                LocationManager.GPS_PROVIDER,
+                REFRESH_PERIOD, MINIMAL_DISTANCE
+            ) {
+                setCity(context, it, nameListener)
+            }
+        } ?: run {
+            listener.onFailed(Throwable(GPS_TURNED_OFF_EXCEPTION))
+        }
+    }
+
+    private fun setCity(
+        context: Context,
+        location: Location,
+        nameListener: CityNameLoaderListener
+    ) {
+        loadedCity.lat = location.latitude
+        loadedCity.lon = location.longitude
+        getAddressAsync(context, location.latitude, location.longitude, nameListener)
+    }
+
+    private fun getAddressAsync(
+        context: Context,
+        lat: Double,
+        lon: Double,
+        listener: CityNameLoaderListener
+    ) {
+        val geoCoder = Geocoder(context)
+        Thread {
+            try {
+                val addresses = geoCoder.getFromLocation(lat, lon, 1)
+                val cityName =
+                    "${addresses[0].locality ?: ""}  ${addresses[0].adminArea ?: ""}  ${addresses[0].countryName ?: ""}"
+
+                listener.onLoaded(City(cityName))
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }.start()
+    }
+
+    override fun getCityByCoordinates(
+        context: Context,
+        lat: Double,
+        lon: Double,
+        listener: CityLoaderListener
+    ) {
+        val nameListener = createNameListener(listener)
+        getAddressAsync(context, lat, lon, nameListener)
+    }
+
+    private fun createNameListener(listener: CityLoaderListener): CityNameLoaderListener {
+        return object : CityNameLoaderListener {
             override fun onLoaded(city: City) {
                 loadedCity.name = city.name
                 listener.onLoaded(loadedCity)
@@ -36,72 +115,5 @@ class CitiesRepoImplGps : CitiesRepo {
                 listener.onLoaded(loadedCity)
             }
         }
-
-        when (context.checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION)) {
-            PackageManager.PERMISSION_DENIED -> {
-                listener.onFailed(Throwable(GPS_PERMISSION_DENIED_EXCEPTION))
-            }
-            PackageManager.PERMISSION_GRANTED -> {
-                loadLocation(context, nameListener)
-            }
-        }
     }
-
-    @SuppressLint("MissingPermission")
-    private fun loadLocation(context: Context, nameListener: CityNameLoaderListener) {
-        val locationManager =
-            context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-
-        val location: Location? =
-            locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-        location?.let {
-            setCity(context, it, nameListener)
-        }
-
-        locationManager.requestLocationUpdates(
-            LocationManager.GPS_PROVIDER,
-            REFRESH_PERIOD,
-            MINIMAL_DISTANCE,
-        ) {
-            setCity(context, it, nameListener)
-        }
-    }
-
-    private fun setCity(
-        context: Context,
-        it: Location,
-        nameListener: CityNameLoaderListener
-    ) {
-        loadedCity.lat = it.latitude
-        loadedCity.lon = it.longitude
-        getAddressAsync(context, it, nameListener)
-    }
-
-    private fun getAddressAsync(
-        context: Context,
-        location: Location,
-        listener: CityNameLoaderListener
-    ) {
-        val geoCoder = Geocoder(context)
-        Thread {
-            try {
-                val addresses = geoCoder.getFromLocation(
-                    location.latitude,
-                    location.longitude,
-                    1
-                )
-                val cityName =
-                    "${addresses[0].locality}, ${addresses[0].adminArea}, ${addresses[0].countryName}"
-                listener.onLoaded(City(cityName))
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-        }.start()
-    }
-
-    override fun getCityByCoordinates(lat: Double, lon: Double) =
-        CitiesRepoImplDummy().getCityByCoordinates(lat, lon)
-
-    override fun getCitiesListRus() = CitiesRepoImplDummy().getCitiesListRus()
-    override fun getCitiesListWorld() = CitiesRepoImplDummy().getCitiesListWorld()
 }
