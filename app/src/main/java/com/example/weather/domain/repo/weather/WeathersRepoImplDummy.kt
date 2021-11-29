@@ -2,15 +2,15 @@ package com.example.weather.domain.repo.weather
 
 import android.os.SystemClock
 import android.util.Log
-import com.example.weather.domain.repo.city.CitiesRepo
-import com.example.weather.domain.repo.city.CitiesRepoImplDummy
 import com.example.weather.domain.repo.city.CitiesRepoImplDummy.NoCityFoundException
 import com.example.weather.domain.model.City
 import com.example.weather.domain.model.Weather
 import com.example.weather.domain.model.WeatherDTO
+import com.example.weather.domain.repo.city.lists.CityListsRepo
+import com.example.weather.domain.repo.city.lists.CityListsRepoRus
 
 class WeathersRepoImplDummy : WeathersRepo {
-    private val citiesRepo: CitiesRepo = CitiesRepoImplDummy()
+    private val cityListsRepo: CityListsRepo = CityListsRepoRus()
     private val worldCitiesWeather: List<Weather> = setCitiesWeather(true)
     private val rusCitiesWeather: List<Weather> = setCitiesWeather(false)
 
@@ -18,10 +18,10 @@ class WeathersRepoImplDummy : WeathersRepo {
         val weathers: MutableList<Weather> = mutableListOf()
         val cities: List<City> = when (isWorld) {
             true -> {
-                citiesRepo.getCitiesListWorld()
+                cityListsRepo.getWorldCitiesList()
             }
             false -> {
-                citiesRepo.getCitiesListRus()
+                cityListsRepo.getLocalCitiesList()
             }
         }
         val weatherDTO = WeatherDTO()
@@ -40,7 +40,7 @@ class WeathersRepoImplDummy : WeathersRepo {
         return try {
             Thread {
                 SystemClock.sleep(1000)
-                val city = citiesRepo.getCityByCoordinates(lat, lon)
+                val city = City("", lat, lon)
                 listener.onLoaded(getWeatherOfCity(city))
             }.start()
         } catch (e: NoCityFoundException) {

@@ -15,4 +15,9 @@
         android:id="@+id/navigation_favorites"
         android:icon="@drawable/ic_favorite"
         android:title="@string/bottom_nav_favorites" />
+
+    <item
+        android:id="@+id/navigation_history"
+        android:icon="@drawable/ic_history"
+        android:title="@string/bottom_nav_history" />
 </menu>
