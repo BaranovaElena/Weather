@@ -26,7 +26,7 @@ class WeathersRepoImplApi: WeathersRepo {
         return emptyList()
     }
 
-    override fun getWeatherOfCity(listener: WeatherLoaderListener, lat: Double, lon: Double) {
+    fun getWeatherOfCity(lat: Double, lon: Double, listener: WeatherLoaderListener) {
         try {
             val uri = URL("${hostName}lat=${lat}&lon=${lon}")
             val handler = Handler(Looper.getMainLooper())
