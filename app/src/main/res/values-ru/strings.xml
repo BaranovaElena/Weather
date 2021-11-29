@@ -1,14 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- app -->
     <string name="app_name">Погода</string>
+
+    <!-- details fragment -->
     <string name="city_coordinates_text">с.ш./в.д.: </string>
     <string name="temperature_label_text">Температура</string>
     <string name="feels_like_label">Ощущается как</string>
+    <string name="wind_speed">Скорость ветра (м/с)</string>
+    <string name="wind_direction">Направление ветра</string>
+    <string name="pressure">Давление (мм рт.ст.)</string>
+    <string name="humidity">Влажность воздуха (%)</string>
+
+    <!-- alert dialogs -->
     <string name="error">Ошибка загрузки</string>
     <string name="reload">Перезагрузка</string>
+    <string name="dialog_message_no_gps">Разрешите доступ к геолокации</string>
+    <string name="dialog_title_no_gps">Доступ к геолокации закрыт</string>
+    <string name="dialog_button_close">Закрыть</string>
+    <string name="dialog_title_gps_turned_off">GPS отключён</string>
+    <string name="dialog_message_last_location_unknown">Местонахождение неизвестно. Включите GPS</string>
+    <string name="map_wrong_input_address">Адрес введен неверно</string>
+
+    <!-- city list fragment -->
     <string name="russian_cities">Города России</string>
     <string name="world_cities">Города мира</string>
+    <string name="open_map">Указать город на карте</string>
+
+    <!-- navigation -->
     <string name="bottom_nav_default">Мой город</string>
     <string name="bottom_nav_list">Города</string>
     <string name="bottom_nav_favorites">Избранные</string>
+    <string name="bottom_nav_history">История</string>
+
+    <!-- history fragment -->
+    <string name="history_title_text">Просмотренные города</string>
+
+    <!-- maps fragment -->
+    <string name="map_button_search">Поиск</string>
+    <string name="map_search_edit_text_hint">Введите адрес</string>
+    <string name="map_button_show_weather">Показать погоду здесь</string>
+    <string name="loading">Загрузка…</string>
+
+    <!-- notification -->
+    <string name="notification">Создать уведомление</string>
+    <string name="notification_btn_text">Нажми чтобы проверить погоду!</string>
+    <string name="menu_notif_channel_description">канал уведомлений меню панели действий</string>
+    <string name="firebase_notif_channel_description">канал уведомлений firebase</string>
 </resources>

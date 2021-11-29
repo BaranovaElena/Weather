@@ -7,82 +7,152 @@
     android:layout_height="match_parent"
     android:background="@color/background">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/main_view"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/city_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/city_name_margin_top"
-            android:textSize="@dimen/city_name_text_size"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/main_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/city_coordinates"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/city_coordinates_margin_top"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/city_name" />
+            <TextView
+                android:id="@+id/city_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/city_name_margin_top"
+                android:textSize="@dimen/city_name_text_size"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/temperature_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/default_margin_top"
-            android:text="@string/temperature_label_text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/city_coordinates" />
+            <TextView
+                android:id="@+id/city_coordinates"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/city_coordinates_margin_top"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/city_name" />
 
-        <TextView
-            android:id="@+id/temperature_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/default_margin_top"
-            android:textSize="@dimen/temperature_value_text_size"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/temperature_label" />
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/weather_condition_icon"
+                android:layout_width="@dimen/weather_condition_icon_width"
+                android:layout_height="@dimen/weather_condition_icon_height"
+                android:layout_marginTop="@dimen/city_coordinates_margin_top"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/city_coordinates" />
 
-        <TextView
-            android:id="@+id/feels_like_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/default_margin_top"
-            android:text="@string/feels_like_label"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/temperature_value" />
+            <TextView
+                android:id="@+id/weather_condition"
+                style="@style/style_weather_default_value"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="@+id/weather_condition_icon" />
 
-        <TextView
-            android:id="@+id/feels_like_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/default_margin_top"
-            android:textSize="@dimen/feels_like_text_size"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/feels_like_label" />
+            <TextView
+                android:id="@+id/temperature_label"
+                style="@style/style_weather_default_label"
+                android:text="@string/temperature_label_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/weather_condition" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/temperature_value"
+                style="@style/style_weather_default_value"
+                android:textSize="@dimen/temperature_value_text_size"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/temperature_label" />
+
+            <TextView
+                android:id="@+id/feels_like_label"
+                style="@style/style_weather_default_label"
+                android:text="@string/feels_like_label"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/temperature_value" />
+
+            <TextView
+                android:id="@+id/feels_like_value"
+                style="@style/style_weather_default_value"
+                android:textSize="@dimen/feels_like_text_size"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/feels_like_label" />
+
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/feels_like_value"
+                android:columnCount="@integer/detail_weather_layout_column_count" >
+
+                <LinearLayout style="@style/style_weather_default_linear_layout_values">
+
+                    <TextView
+                        android:id="@+id/wind_speed_label"
+                        style="@style/style_weather_default_label"
+                        android:text="@string/wind_speed" />
+
+                    <TextView
+                        android:id="@+id/wind_speed_value"
+                        style="@style/style_weather_default_value" />
+                </LinearLayout>
+
+                <LinearLayout style="@style/style_weather_default_linear_layout_values">
+
+                    <TextView
+                        android:id="@+id/wind_dir_label"
+                        style="@style/style_weather_default_label"
+                        android:text="@string/wind_direction" />
+
+                    <TextView
+                        android:id="@+id/wind_dir_value"
+                        style="@style/style_weather_default_value" />
+                </LinearLayout>
+
+                <LinearLayout style="@style/style_weather_default_linear_layout_values">
+
+                    <TextView
+                        android:id="@+id/pressure_label"
+                        style="@style/style_weather_default_label"
+                        android:text="@string/pressure" />
+
+                    <TextView
+                        android:id="@+id/pressure_value"
+                        style="@style/style_weather_default_value" />
+                </LinearLayout>
+
+                <LinearLayout style="@style/style_weather_default_linear_layout_values">
+
+                    <TextView
+                        android:id="@+id/humidity_label"
+                        style="@style/style_weather_default_label"
+                        android:text="@string/humidity" />
+
+                    <TextView
+                        android:id="@+id/humidity_value"
+                        style="@style/style_weather_default_value" />
+                </LinearLayout>
+
+            </GridLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
     <FrameLayout
         android:id="@+id/loading_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/loading_background"
         android:visibility="gone"
-        tools:visibility="visible">
+        tools:visibility="visible"
+        android:background="@color/loading_background">
 
         <ProgressBar
             style="?android:attr/progressBarStyleLarge"
